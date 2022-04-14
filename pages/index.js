@@ -1,15 +1,11 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import useSwr from 'swr';
 
-const fetcher = (url) => fetch(url).then((r) => r.json())
-
 export default function Home() {
-  const { data, error } = useSwr(`api/hello/?name=Alvaro`, fetcher)
+  const { data, error } = useSwr(`api/hello/`)
 
-  if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
-
+  if (error) return <div> failed to load </div>
+  if (!data) return <div> loading... </div>
 
   return (
     <div>
@@ -21,7 +17,7 @@ export default function Home() {
 
       <main>
         <h1 >
-          Welcome to an app writed by {data.name}
+          Welcome to an app writed by {data.toString()}
         </h1>
       </main>
     </div>
