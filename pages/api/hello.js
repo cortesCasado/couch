@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Basic ${Buffer.from(`admin:password`).toString('base64')}`,
+      "Authorization": `Basic ${Buffer.from(`${process.env.ADMIN}:${process.env.PASSWORD}`).toString('base64')}`,
     },
   }).then(r => r.json());
 
