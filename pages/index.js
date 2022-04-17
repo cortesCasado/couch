@@ -2,7 +2,7 @@ import Head from 'next/head';
 import useSwr from 'swr';
 
 export default function Home() {
-  const { data, error } = useSwr(`api/hello/`)
+  const { data, error } = useSwr(`/api/hello/`)
 
   if (error) return <div> failed to load </div>
   if (!data) return <div> loading... </div>
