@@ -1,8 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 export default async function handler(req, res) {
-  const { name } = req.query;
-
   const dbs = await fetch(`http://localhost:5984/_all_dbs`, {
     method: "GET",
     headers: {
@@ -12,5 +10,5 @@ export default async function handler(req, res) {
   }).then(r => r.json());
 
 
-  res.status(200).json({ name: JSON.stringify(dbs) })
+  res.status(200).json(dbs)
 }
