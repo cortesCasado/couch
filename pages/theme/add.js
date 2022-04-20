@@ -19,7 +19,7 @@ function add() {
     let message;
     const response = await axios.post('/api/theme', data)
     .then(res => {
-        message=res.data;
+      message=res.data;
     }).catch(err => {
       message=err.response.data;
     })
