@@ -1,11 +1,9 @@
 import Head from 'next/head';
-import useSwr from 'swr';
+import axios from 'axios';
+import ShortPost from '../components/MainPage/ShortPost/index';
+import ShortTheme from '../components/MainPage/ShortTheme/index';
 
-export default function Home() {
-  const { data, error } = useSwr(`api/hello/`)
-
-  if (error) return <div> failed to load </div>
-  if (!data) return <div> loading... </div>
+export default function Home({posts, themes}) {
 
   return (
     <div>
@@ -16,10 +14,69 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 >
-          Welcome to an app writed by {data.toString()}
-        </h1>
+        {/* Noticias más recientes */}
+        { posts !== "no existen" ?
+          <div>
+            <h1>Posts más recientes</h1>
+            { posts.map(post => (
+              <ShortPost key={post.id} id={post.id} title={post.value[0]} 
+                username={post.value[1]} date={post.key}/>
+              ))
+            }
+          </div> 
+          :
+          <div>Ha habido un problema al recuperar los posts</div>
+        }
+
+        <br/><br/>
+
+        {/* Temas más populares */}
+        { themes !== "no existen" ?
+          <div> 
+            <h1>Temas más populares</h1>
+            { themes.map(theme => (
+              <ShortTheme key={theme.key} title={theme.key} 
+                numberPosts={theme.value} />
+              ))
+            }
+          </div>
+          :
+          <div>Ha habido un problema al recuperar los temas</div>
+        }
       </main>
     </div>
   )
+}
+
+export async function getServerSideProps(context) {
+  let posts;
+  await axios.get(`http://localhost:5984/${process.env.DBNAME}/_design/post/_view/by_date?descending=true&limit=10`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Basic ${Buffer.from(`${process.env.ADMIN}:${process.env.PASSWORD}`).toString('base64')}`,
+    },
+  }).then(res => {
+    posts = res.data.rows;
+  }).catch(err => {
+    posts = "no existen";
+  })
+
+  let themes;
+  await axios.get(`http://localhost:5984/${process.env.DBNAME}/_design/theme/_view/by_popularity?group=true&limit=10`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Basic ${Buffer.from(`${process.env.ADMIN}:${process.env.PASSWORD}`).toString('base64')}`,
+    },
+  }).then(res => {
+    themes = res.data.rows;
+  }).catch(err => {
+    themes = "no existen";
+  })
+
+  return {
+    props: {
+      posts: posts,
+      themes: themes
+    },
+  }
 }

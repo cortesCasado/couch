@@ -1,0 +1,1 @@
+function noName(t,e){return'post'===t.type?(t.comments.push(JSON.parse(e.body)),[t,'Post updated']):[null,'Nothing updated']}
