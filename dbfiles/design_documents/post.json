@@ -1,10 +1,10 @@
 {
-    "_id": "_design/post",
-    "_rev": "1-23bc25b8b0e15f8f7e76f56d2f083544",
-    "views": {
-        "posts": {
-            "map": "doc => doc.type === `post` && emit(doc._id, { title: doc.title });"
-        }
-    },
-    "language": "javascript"
+  "_id": "_design/post",
+  "_rev": "1-23bc25b8b0e15f8f7e76f56d2f083544",
+  "views": {
+    "posts": {
+      "map": "doc => doc.type === `post` && emit(doc._id, { title: doc.title });"
+    }
+  },
+  "language": "javascript"
 }

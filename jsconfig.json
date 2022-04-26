@@ -1,13 +1,9 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "@/api/*": [
-                "pages/api/*"
-            ],
-            "@/components/*": [
-                "components/*"
-            ],
-        }
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/api/*": ["pages/api/*"],
+      "@/components/*": ["components/*"]
     }
+  }
 }

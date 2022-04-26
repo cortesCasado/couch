@@ -1,12 +1,12 @@
-import Head from 'next/head';
-import ShortPost from '@/components/MainPage/ShortPost';
-import ShortTheme from '@/components/MainPage/ShortTheme';
-import useSWR from 'swr';
+import Head from "next/head";
+import ShortPost from "@/components/MainPage/ShortPost";
+import ShortTheme from "@/components/MainPage/ShortTheme";
+import useSWR from "swr";
 
 export default function Home() {
   // Get the last posts and themes
-  const { data: postsData, error: postsError } = useSWR('/api/post');
-  const { data: themesData, error: themesError } = useSWR('/api/theme');
+  const { data: postsData, error: postsError } = useSWR("/api/post");
+  const { data: themesData, error: themesError } = useSWR("/api/theme");
 
   // If there is an error, show it
   if (postsError || themesError) {
@@ -21,7 +21,7 @@ export default function Home() {
   console.log(postsData);
   console.log(themesData);
 
-  // If there is data, show it 
+  // If there is data, show it
   return (
     <div>
       <Head>
@@ -32,35 +32,42 @@ export default function Home() {
 
       <main>
         {/* Noticias más recientes */}
-        {postsData !== "no existen" ?
+        {postsData !== "no existen" ? (
           <div>
             <h1>Posts más recientes</h1>
-            {postsData.rows.map(post => (
-              <ShortPost key={post.id} id={post.id} title={post.value[0]}
-                username={post.value[1]} date={post.key} />
-            ))
-            }
+            {postsData.rows.map((post) => (
+              <ShortPost
+                key={post.id}
+                id={post.id}
+                title={post.value[0]}
+                username={post.value[1]}
+                date={post.key}
+              />
+            ))}
           </div>
-          :
+        ) : (
           <div>Ha habido un problema al recuperar los posts</div>
-        }
+        )}
 
-        <br /><br />
+        <br />
+        <br />
 
         {/* Temas más populares */}
-        {themesData !== "no existen" ?
+        {themesData !== "no existen" ? (
           <div>
             <h1>Temas más populares</h1>
-            {themesData.rows.map(theme => (
-              <ShortTheme key={theme.key} title={theme.key}
-                numberPosts={theme.value} />
-            ))
-            }
+            {themesData.rows.map((theme) => (
+              <ShortTheme
+                key={theme.key}
+                title={theme.key}
+                numberPosts={theme.value}
+              />
+            ))}
           </div>
-          :
+        ) : (
           <div>Ha habido un problema al recuperar los temas</div>
-        }
+        )}
       </main>
     </div>
-  )
+  );
 }
