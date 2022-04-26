@@ -3,7 +3,7 @@ import axios from 'axios';
 import ShortPost from '../components/MainPage/ShortPost/index';
 import ShortTheme from '../components/MainPage/ShortTheme/index';
 
-export default function Home({posts, themes}) {
+export default function Home({ posts, themes }) {
 
   return (
     <div>
@@ -15,29 +15,29 @@ export default function Home({posts, themes}) {
 
       <main>
         {/* Noticias más recientes */}
-        { posts !== "no existen" ?
+        {posts !== "no existen" ?
           <div>
             <h1>Posts más recientes</h1>
-            { posts.map(post => (
-              <ShortPost key={post.id} id={post.id} title={post.value[0]} 
-                username={post.value[1]} date={post.key}/>
-              ))
+            {posts.map(post => (
+              <ShortPost key={post.id} id={post.id} title={post.value[0]}
+                username={post.value[1]} date={post.key} />
+            ))
             }
-          </div> 
+          </div>
           :
           <div>Ha habido un problema al recuperar los posts</div>
         }
 
-        <br/><br/>
+        <br /><br />
 
         {/* Temas más populares */}
-        { themes !== "no existen" ?
-          <div> 
+        {themes !== "no existen" ?
+          <div>
             <h1>Temas más populares</h1>
-            { themes.map(theme => (
-              <ShortTheme key={theme.key} title={theme.key} 
+            {themes.map(theme => (
+              <ShortTheme key={theme.key} title={theme.key}
                 numberPosts={theme.value} />
-              ))
+            ))
             }
           </div>
           :
