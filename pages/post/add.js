@@ -5,7 +5,7 @@ export default function CreatePost() {
         const data = {
             publication_date: new Date().toISOString(),
             type: "post",
-            theme: event.target.theme.value,
+            themeTitle: event.target.theme.value,
             username: event.target.username.value,
             title: event.target.title.value,
             body: event.target.body.value,
@@ -34,8 +34,8 @@ export default function CreatePost() {
     return (
         // We pass the event to the handleSubmit() function on submit.
         <form onSubmit={handleSubmit}>
-            <label htmlFor="theme">Temática</label>
-            <input type="text" id="theme" name="theme" required />
+            <label htmlFor="themeTitle">Temática</label>
+            <input type="text" id="themeTitle" name="themeTitle" required />
 
             <label htmlFor="username">Nickname</label>
             <input type="text" id="username" name="username" required />

@@ -1,0 +1,13 @@
+{
+  "_id": "_design/theme",
+  "_rev": "1-93cbd8fb978f08b6a4824bc7ec47377f",
+  "views": {
+    "themes": {
+      "map": "doc => doc.type === `theme` && emit(doc.title, doc.postNumber);"
+    }
+  },
+  "updates": {
+    "updatePostCount": "((t, e) => 'theme' === t.type ? (t.postsCount++, [t, 'Post number updated']) : [null, 'Post number not updated'];"
+  },
+  "language": "javascript"
+}

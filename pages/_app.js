@@ -12,7 +12,7 @@ const fetcher = async url => {
     throw error
   }
 
-  return res.json()
+  return res.json();
 }
 
 function MyApp({ Component, pageProps }) {

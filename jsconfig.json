@@ -3,8 +3,11 @@
         "baseUrl": ".",
         "paths": {
             "@/api/*": [
-                "/pages/api/*"
-            ]
+                "pages/api/*"
+            ],
+            "@/components/*": [
+                "components/*"
+            ],
         }
     }
 }

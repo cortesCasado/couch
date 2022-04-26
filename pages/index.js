@@ -1,10 +1,27 @@
 import Head from 'next/head';
-import axios from 'axios';
-import ShortPost from '../components/MainPage/ShortPost/index';
-import ShortTheme from '../components/MainPage/ShortTheme/index';
+import ShortPost from '@/components/MainPage/ShortPost';
+import ShortTheme from '@/components/MainPage/ShortTheme';
+import useSWR from 'swr';
 
-export default function Home({ posts, themes }) {
+export default function Home() {
+  // Get the last posts and themes
+  const { data: postsData, error: postsError } = useSWR('/api/post');
+  const { data: themesData, error: themesError } = useSWR('/api/theme');
 
+  // If there is an error, show it
+  if (postsError || themesError) {
+    return <div>failed to load</div>;
+  }
+
+  // If there is no data, show a loading message
+  if (!postsData || !themesData) {
+    return <div>loading...</div>;
+  }
+
+  console.log(postsData);
+  console.log(themesData);
+
+  // If there is data, show it 
   return (
     <div>
       <Head>
@@ -15,10 +32,10 @@ export default function Home({ posts, themes }) {
 
       <main>
         {/* Noticias más recientes */}
-        {posts !== "no existen" ?
+        {postsData !== "no existen" ?
           <div>
             <h1>Posts más recientes</h1>
-            {posts.map(post => (
+            {postsData.rows.map(post => (
               <ShortPost key={post.id} id={post.id} title={post.value[0]}
                 username={post.value[1]} date={post.key} />
             ))
@@ -31,10 +48,10 @@ export default function Home({ posts, themes }) {
         <br /><br />
 
         {/* Temas más populares */}
-        {themes !== "no existen" ?
+        {themesData !== "no existen" ?
           <div>
             <h1>Temas más populares</h1>
-            {themes.map(theme => (
+            {themesData.rows.map(theme => (
               <ShortTheme key={theme.key} title={theme.key}
                 numberPosts={theme.value} />
             ))
@@ -46,37 +63,4 @@ export default function Home({ posts, themes }) {
       </main>
     </div>
   )
-}
-
-export async function getServerSideProps(context) {
-  let posts;
-  await axios.get(`http://localhost:5984/${process.env.DBNAME}/_design/post/_view/by_date?descending=true&limit=10`, {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Basic ${Buffer.from(`${process.env.ADMIN}:${process.env.PASSWORD}`).toString('base64')}`,
-    },
-  }).then(res => {
-    posts = res.data.rows;
-  }).catch(err => {
-    posts = "no existen";
-  })
-
-  let themes;
-  await axios.get(`http://localhost:5984/${process.env.DBNAME}/_design/theme/_view/by_popularity?group=true&limit=10`, {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Basic ${Buffer.from(`${process.env.ADMIN}:${process.env.PASSWORD}`).toString('base64')}`,
-    },
-  }).then(res => {
-    themes = res.data.rows;
-  }).catch(err => {
-    themes = "no existen";
-  })
-
-  return {
-    props: {
-      posts: posts,
-      themes: themes
-    },
-  }
 }
