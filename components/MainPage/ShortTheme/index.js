@@ -1,13 +1,16 @@
 import React from "react";
+import Link from "next/link";
 
-function index({ title, numberPosts }) {
+export default function Index({ title, numberPosts }) {
   return (
-    <div className="border-2 border-black">
-      <p>
-        {title}: {numberPosts} posts
-      </p>
-    </div>
+    <Link href={`/theme/${title}`}>
+      <a>
+        <div className="border-2 border-black">
+          <p>
+            {title}: {numberPosts} posts
+          </p>
+        </div>
+      </a>
+    </Link>
   );
 }
-
-export default index;

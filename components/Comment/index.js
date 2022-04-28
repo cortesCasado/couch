@@ -1,6 +1,6 @@
 import React from "react";
 
-function index({ username, comment, date }) {
+export default function Index({ username, comment, date }) {
   return (
     <div className="border-2 border-black">
       <div>
@@ -10,5 +10,3 @@ function index({ username, comment, date }) {
     </div>
   );
 }
-
-export default index;

@@ -2,8 +2,9 @@ import { getUUID } from "@/api/_utils";
 
 // Endpoint for theme API:  /api/theme
 export default async function handler(req, res) {
-  if (req.method === "GET") {
-    if (!req.query.id) {
+  switch (req.method) {
+    case "GET":
+
       const themes = await getThemes();
 
       if (themes.error) {
@@ -11,23 +12,18 @@ export default async function handler(req, res) {
       } else {
         res.status(200).json(themes);
       }
-    } else {
-      const theme = await getThemeById(req.query.id);
 
-      if (theme.error) {
-        res.status(500).json(theme.reason);
+      break;
+    case "PUT":
+      const dbResponse = await putTheme(req.body);
+
+      if (dbResponse.error) {
+        res.status(500).json(dbResponse);
       } else {
-        res.status(200).json(theme);
+        res.status(200).json("Tema creado con éxito.");
       }
-    }
-  } else if (req.method === "PUT") {
-    const dbResponse = await putTheme(req.body);
 
-    if (dbResponse.error) {
-      res.status(500).json(dbResponse);
-    } else {
-      res.status(200).json("Tema creado con éxito.");
-    }
+      break;
   }
 }
 
@@ -81,13 +77,14 @@ export async function getThemes() {
   };
 
   return await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/_design/theme/_view/themes`,
+    `http://localhost:5984/${process.env.DBNAME}/_design/theme/_view/themes?group_level=1&descending=true&limit=10`,
     options
   )
     .then((r) => r.json())
     .catch((err) => err);
 }
 
+// Get most popular themes
 export async function getMostPopularThemes() {
   const options = {
     method: "GET",
@@ -106,9 +103,6 @@ export async function getMostPopularThemes() {
     .then((r) => r.json())
     .catch((err) => err);
 }
-
-// Get theme by id
-export async function getThemeById(id) {}
 
 // Get theme by title
 export async function getThemeByTitle(title) {
@@ -142,24 +136,6 @@ export async function getThemeByTitle(title) {
     .catch((err) => err);
 }
 
-// Update
 
-// Update theme postCount
-export async function updateThemePostCount(theme) {
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Basic ${Buffer.from(
-        `${process.env.ADMIN}:${process.env.PASSWORD}`
-      ).toString("base64")}`,
-    },
-  };
-
-  await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/_design/theme/_update/updatePostCount/${theme._id}`,
-    options
-  );
-}
 
 // Delete

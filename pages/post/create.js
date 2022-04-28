@@ -5,7 +5,7 @@ export default function CreatePost() {
     const data = {
       publication_date: new Date().toISOString(),
       type: "post",
-      themeTitle: event.target.theme.value,
+      theme: event.target.themeTitle.value,
       username: event.target.username.value,
       title: event.target.title.value,
       body: event.target.body.value,

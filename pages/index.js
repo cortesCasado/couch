@@ -2,6 +2,7 @@ import Head from "next/head";
 import ShortPost from "@/components/MainPage/ShortPost";
 import ShortTheme from "@/components/MainPage/ShortTheme";
 import useSWR from "swr";
+import Link from "next/link";
 
 export default function Home() {
   // Get the last posts and themes
@@ -39,8 +40,8 @@ export default function Home() {
               <ShortPost
                 key={post.id}
                 id={post.id}
-                title={post.value[0]}
-                username={post.value[1]}
+                title={post.value.title}
+                username={post.value.username}
                 date={post.key}
               />
             ))}
@@ -67,6 +68,13 @@ export default function Home() {
         ) : (
           <div>Ha habido un problema al recuperar los temas</div>
         )}
+
+        <br />
+        <br />
+
+        <Link href="/theme/list">
+          <a>Ver todos los temas</a>
+        </Link>
       </main>
     </div>
   );

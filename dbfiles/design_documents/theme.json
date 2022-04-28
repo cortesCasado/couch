@@ -1,13 +1,12 @@
 {
   "_id": "_design/theme",
-  "_rev": "1-93cbd8fb978f08b6a4824bc7ec47377f",
+  "_rev": "22-ee751eda1c83e379d57cc86287ef8efa",
+  "validate_doc_update": "function (newDoc,oldDoc,userCtx,secObj){function n(e,i){if(i=i||'Document must have a '+e,!newDoc[e])throw{forbidden:i}}if('theme'===newDoc.type){if(n('title'),n('description'),!newDoc.description)throw{forbidden:'Theme must have a description'};if('string'!=typeof newDoc.title)throw{forbidden:'Title must be a string'};if(newDoc.title.length>40)throw{forbidden:'Title must be under 40 characters'};if('string'!=typeof newDoc.description)throw{forbidden:'Description must be a string'};if(newDoc.description.length>150)throw{forbidden:'Description must be under 150 characters'}}}",
   "views": {
     "themes": {
-      "map": "doc => doc.type === `theme` && emit(doc.title, doc.postNumber);"
+      "map": "t=>{'theme'===t.type?emit(t.title,0):'post'===t.type&&emit(t.theme,1);};",
+      "reduce": "_sum"
     }
-  },
-  "updates": {
-    "updatePostCount": "((t, e) => 'theme' === t.type ? (t.postsCount++, [t, 'Post number updated']) : [null, 'Post number not updated'];"
   },
   "language": "javascript"
 }

@@ -1,23 +1,26 @@
-import Link from "next/link";
 import useSWR from "swr";
+import ShortTheme from "@/components/MainPage/ShortTheme";
 
 export default function List() {
-  const { data, error } = useSWR(`/api/themes/`);
+  const { data, error } = useSWR(`/api/theme/`);
 
   if (error) return <div> failed to load </div>;
   if (!data) return <div> loading... </div>;
 
+  console.log(data.rows);
+
   return (
+
     <div>
-      <ul className="list">
-        {data.map((theme) => (
-          <li key={theme._id}>
-            <Link href="/themes/[id]" as={`/themes/${theme._id}`}>
-              <a>{theme.title}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <h1>Temas más populares</h1>
+      {data.rows.map((theme) => (
+        <ShortTheme
+          key={theme.key}
+          title={theme.key}
+          numberPosts={theme.value}
+        />
+      ))}
     </div>
+
   );
 }

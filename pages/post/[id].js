@@ -6,7 +6,8 @@ import { DialogText } from "@/components/DialogText";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-export default function Index({ id, post }) {
+export default function PostDetails({ id, post }) {
+
   // Modal para el formulario de enviar comentario
   const [showModal, setShowModal] = useState(false);
 
@@ -44,9 +45,9 @@ export default function Index({ id, post }) {
   return (
     <div>
       {post !== "no existe" ? (
-        <>
+        <div>
           <Post post={post} />
-          {post[5].map((comment) => (
+          {/* {post.comments.map((comment) => (
             <Comment
               key={comment.username}
               username={comment.username}
@@ -90,8 +91,8 @@ export default function Index({ id, post }) {
                 </button>
               </form>
             </DialogText>
-          )}
-        </>
+          )} */}
+        </div>
       ) : (
         <div>No existe el post</div>
       )}
@@ -101,25 +102,25 @@ export default function Index({ id, post }) {
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
-  let post;
 
-  await axios
-    .get(
-      `http://localhost:5984/${process.env.DBNAME}/_design/post/_view/by_id?key=\"${id}\"`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Basic ${Buffer.from(
-            `${process.env.ADMIN}:${process.env.PASSWORD}`
-          ).toString("base64")}`,
-        },
-      }
-    )
-    .then((res) => {
-      post = res.data.rows[0].value;
-    })
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${Buffer.from(
+        `${process.env.ADMIN}:${process.env.PASSWORD}`
+      ).toString("base64")}`,
+    },
+  };
+
+
+  const post = await fetch(
+    `http://localhost:5984/${process.env.DBNAME}/${id}`,
+    options
+  )
+    .then((res) => res.json())
     .catch((err) => {
-      post = "no existe";
+      err.response.data["reason"];
     });
 
   return {
