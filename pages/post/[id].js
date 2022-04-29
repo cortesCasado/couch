@@ -47,7 +47,7 @@ export default function PostDetails({ id, post }) {
       {post !== "no existe" ? (
         <div>
           <Post post={post} />
-          {/* {post.comments.map((comment) => (
+          {post.comments.map((comment) => (
             <Comment
               key={comment.username}
               username={comment.username}
@@ -91,7 +91,7 @@ export default function PostDetails({ id, post }) {
                 </button>
               </form>
             </DialogText>
-          )} */}
+          )}
         </div>
       ) : (
         <div>No existe el post</div>

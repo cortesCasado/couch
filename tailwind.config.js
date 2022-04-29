@@ -4,7 +4,10 @@ module.exports = {
     "./components/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      'title': ['Oswald'],
+      'body': ['Roboto'],
+    }
   },
   plugins: [],
 };

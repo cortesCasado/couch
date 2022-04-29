@@ -32,6 +32,8 @@ export default function Home() {
       </Head>
 
       <main>
+        <h1 className="font-title text-4xl">Esto es un titulo de prueba</h1>
+        <h1 className="font-body text-lg">Esto es un titulo de prueba</h1>
         {/* Noticias más recientes */}
         {postsData !== "no existen" ? (
           <div>

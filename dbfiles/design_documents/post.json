@@ -18,21 +18,3 @@
   },
   "language": "javascript"
 }
-
-
-{
-  "_id": "_design/post",
-  "_rev": "21-2b3e176ccbe8705a86e836f5248f980e",
-  "views": {
-    "by_id": {
-      "map": "function (doc) {\n  if (doc.type == 'post') {\n    emit(doc._id, [doc.title, doc.username, doc.publication_date, doc.body, doc.likes, doc.comments]);\n  }\n}"
-    },
-    "by_date": {
-      "map": "function (doc) {\n  if (doc.type == 'post') {\n    emit(doc.publication_date, [doc.title, doc.username]);\n  }\n}"
-    }
-  },
-  "updates": {
-    "updateComments": "function(doc,req) { if (doc['type'] === 'post') { doc['comments'].push(JSON.parse(req.body)); return [doc, 'Post updated'];}return [null, 'Nothing updated']; }"
-  },
-  "language": "javascript"
-}
