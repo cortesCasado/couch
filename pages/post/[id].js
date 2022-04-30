@@ -6,7 +6,7 @@ import { DialogText } from "@/components/DialogText";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-export default function PostDetails({ id, post }) {
+export default function PostDetails({ id, post, page }) {
 
   // Modal para el formulario de enviar comentario
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +14,9 @@ export default function PostDetails({ id, post }) {
   // Campos del formulario
   const [username, setUsername] = useState("");
   const [comment, setComment] = useState("");
+
+  // Número de comentarios por página
+  const [elementsPerPage, setElementsPerPage] = useState(5);
 
   const router = useRouter();
 
@@ -47,7 +50,7 @@ export default function PostDetails({ id, post }) {
       {post.error !== 'not_found' ? (
         <div>
           <Post post={post} />
-          {post.comments.map((comment) => (
+          {post.comments.slice((elementsPerPage*(page-1)), (elementsPerPage*(page-1)) + elementsPerPage).map((comment) => (
             <Comment
               key={comment.username}
               username={comment.username}
@@ -55,6 +58,15 @@ export default function PostDetails({ id, post }) {
               date={comment.publication_date}
             />
           ))}
+
+          <button onClick={() => router.push(`${id}?page=${page - 1}`)} disabled={page <= 1}>
+            Página Anterior
+          </button>
+          <button onClick={() => router.push(`${id}?page=${+page + 1}`)} disabled={page >= Math.ceil(post.comments.length/elementsPerPage)}>
+            Página Siguiente
+          </button>
+          <br/>
+
           <button onClick={() => setShowModal(true)}>Nuevo comentario</button>
           {showModal && (
             <DialogText
@@ -101,7 +113,11 @@ export default function PostDetails({ id, post }) {
 }
 
 export async function getServerSideProps(context) {
-  const { id } = context.query;
+  let { id, page } = context.query;
+  
+  if (page === undefined || page <= 0) {
+    page = 1;
+  }
 
   const options = {
     method: "GET",
@@ -128,6 +144,7 @@ export async function getServerSideProps(context) {
     props: {
       id: id,
       post: post,
+      page: page
     },
   };
 }
