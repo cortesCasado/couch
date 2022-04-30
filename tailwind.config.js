@@ -7,6 +7,13 @@ module.exports = {
     fontFamily: {
       'title': ['Oswald'],
       'body': ['Roboto'],
+    },
+    extend: {
+      colors: {
+        amber: {
+          50: '#ffaa00'
+        }
+      }
     }
   },
   plugins: [],

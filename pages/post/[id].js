@@ -5,6 +5,8 @@ import axios from "axios";
 import { DialogText } from "@/components/DialogText";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { Button } from "@/components/Button";
+import Image from "next/image";
 
 export default function PostDetails({ id, post, page }) {
 
@@ -46,10 +48,14 @@ export default function PostDetails({ id, post, page }) {
   }
 
   return (
-    <div>
+    <div className="grid bg-gray-200 place-items-center md:py-4 h-full ">
       {post.error !== 'not_found' ? (
-        <div>
+        <div className='bg-white text-webcolor-50 p-6 md:rounded-xl w-full md:w-[750px] space-y-2 divide-y-2'>
           <Post post={post} />
+
+          <div className="font-title p-2 text-4xl">Comentarios</div>
+
+          <div className="divide-y-2">
           {post.comments.slice((elementsPerPage*(page-1)), (elementsPerPage*(page-1)) + elementsPerPage).map((comment) => (
             <Comment
               key={comment.username}
@@ -58,16 +64,18 @@ export default function PostDetails({ id, post, page }) {
               date={comment.publication_date}
             />
           ))}
+          </div>
 
-          <button onClick={() => router.push(`${id}?page=${page - 1}`)} disabled={page <= 1}>
+          <Button 
+            onClick={() => router.push(`${id}?page=${page - 1}`)} disabled={page <= 1}>
             Página Anterior
-          </button>
-          <button onClick={() => router.push(`${id}?page=${+page + 1}`)} disabled={page >= Math.ceil(post.comments.length/elementsPerPage)}>
+          </Button>
+          <Button onClick={() => router.push(`${id}?page=${+page + 1}`)} disabled={page >= Math.ceil(post.comments.length/elementsPerPage)}>
             Página Siguiente
-          </button>
+          </Button>
           <br/>
 
-          <button onClick={() => setShowModal(true)}>Nuevo comentario</button>
+          <Button onClick={() => setShowModal(true)}>Nuevo comentario</Button>
           {showModal && (
             <DialogText
               title="Nuevo comentario"
@@ -77,8 +85,8 @@ export default function PostDetails({ id, post, page }) {
               visibleAcceptButton={false}
               visibleCancelButton={false}
             >
-              <form onSubmit={handleSubmit} method="POST">
-                <label htmlFor="username">Nombre de usuario:</label>
+              <form onSubmit={handleSubmit} method="POST" className="space-y-4">
+                <label htmlFor="username" className="px-2">Nombre de usuario:</label>
                 <input
                   required
                   maxLength="40"
@@ -86,9 +94,10 @@ export default function PostDetails({ id, post, page }) {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  className='border-2 border-black'
                 />
                 <br />
-                <label htmlFor="comment">Comentario:</label>
+                <label htmlFor="comment" className="px-2">Comentario:</label>
                 <input
                   required
                   maxLength="1000"
@@ -96,11 +105,12 @@ export default function PostDetails({ id, post, page }) {
                   type="text"
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
+                  className='border-2 border-black'
                 />
                 <br />
-                <button type="submit" className="border">
+                <Button type="submit">
                   Enviar
-                </button>
+                </Button>
               </form>
             </DialogText>
           )}

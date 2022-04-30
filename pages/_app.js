@@ -1,5 +1,6 @@
 import "styles/globals.css";
 import { SWRConfig } from "swr";
+import TopNav from "../components/TopNav";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -17,9 +18,12 @@ const fetcher = async (url) => {
 
 function MyApp({ Component, pageProps }) {
   return (
+    <>
+    <TopNav />
     <SWRConfig value={{ fetcher }}>
       <Component {...pageProps} />
     </SWRConfig>
+    </>
   );
 }
 
