@@ -3,16 +3,18 @@ import Link from "next/link";
 
 function index({ id, title, username, date }) {
   return (
-    <Link href={`/post/${id}`}>
-      <a>
-        <div className="border-2 border-black cursor-pointer">
-          <p>
-            {title} ({new Date(date).toLocaleString()})
-          </p>
-          <p>Autor: {username}</p>
-        </div>
-      </a>
-    </Link>
+    <div className="py-4">
+      <Link href={`/post/${id}`}>
+        <a>
+          <div className="cursor-pointer font-body text-lg">
+            <p>
+              {title} ({new Date(date).toLocaleString()})
+            </p>
+            <p>Autor: {username}</p>
+          </div>
+        </a>
+      </Link>
+    </div>
   );
 }
 

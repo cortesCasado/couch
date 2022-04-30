@@ -50,7 +50,7 @@ export default function PostDetails({ id, post, page }) {
   return (
     <div className="grid bg-gray-200 place-items-center md:py-4 h-full ">
       {post.error !== 'not_found' ? (
-        <div className='bg-white text-webcolor-50 p-6 md:rounded-xl w-full md:w-[750px] space-y-2 divide-y-2'>
+        <div className='bg-white p-6 md:rounded-xl w-full md:w-[750px] space-y-2 divide-y-2'>
           <Post post={post} />
 
           <div className="font-title p-2 text-4xl">Comentarios</div>
