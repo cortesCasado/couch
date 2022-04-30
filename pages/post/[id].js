@@ -30,7 +30,7 @@ export default function PostDetails({ id, post }) {
 
     let message;
     await axios
-      .post(`/api/addComment/${id}`, data)
+      .put(`/api/addComment/${id}`, data)
       .then((res) => {
         message = res.data;
         alert(`${message}`);
