@@ -44,7 +44,7 @@ export default function PostDetails({ id, post }) {
 
   return (
     <div>
-      {post !== "no existe" ? (
+      {post.error !== 'not_found' ? (
         <div>
           <Post post={post} />
           {post.comments.map((comment) => (
@@ -113,14 +113,16 @@ export async function getServerSideProps(context) {
     },
   };
 
+  let post;
 
-  const post = await fetch(
+  post = await fetch(
     `http://localhost:5984/${process.env.DBNAME}/${id}`,
     options
   )
     .then((res) => res.json())
     .catch((err) => {
       err.response.data["reason"];
+      post = 'no existe'
     });
 
   return {
