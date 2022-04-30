@@ -35,7 +35,7 @@ export default function Home() {
         <h1 className="font-title text-4xl">Esto es un titulo de prueba</h1>
         <h1 className="font-body text-lg">Esto es un titulo de prueba</h1>
         {/* Noticias más recientes */}
-        {postsData !== "no existen" ? (
+        {postsData.rows.length !== 0 ? (
           <div>
             <h1>Posts más recientes</h1>
             {postsData.rows.map((post) => (
@@ -49,14 +49,14 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div>Ha habido un problema al recuperar los posts</div>
+          <div>Todavía no se ha creado ningún post.</div>
         )}
 
         <br />
         <br />
 
         {/* Temas más populares */}
-        {themesData !== "no existen" ? (
+        {themesData.rows.length !== 0 ? (
           <div>
             <h1>Temas más populares</h1>
             {themesData.rows.map((theme) => (
@@ -68,7 +68,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div>Ha habido un problema al recuperar los temas</div>
+          <div>Todavía no se ha creado ningún tema.</div>
         )}
 
         <br />

@@ -122,7 +122,6 @@ export async function getServerSideProps(context) {
     .then((res) => res.json())
     .catch((err) => {
       err.response.data["reason"];
-      post = 'no existe'
     });
 
   return {
