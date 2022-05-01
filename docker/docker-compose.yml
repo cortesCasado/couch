@@ -19,8 +19,6 @@ services:
     environment:
       - NODENAME=10.0.0.10
       - ERL_FLAGS=-setcookie monster
-      - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=password
     volumes:
       - ./config/couchdb:/opt/couchdb/etc/local.d
       - ./data/couchdb/1:/opt/couchdb/data
