@@ -1,0 +1,20 @@
+{
+  "_id": "_design/post",
+  "_rev": "27-cea0fb36b61708118b478be8ad6b5530",
+  "views": {
+    "posts": {
+      "map": "t=>'post'===t.type&&emit(t._id,t);"
+    },
+    "by_date": {
+      "map": "t=>\"post\"===t.type&&emit(t.publication_date,{title:t.title,username:t.username});"
+    },
+    "by_theme": {
+      "map": "t=>{\"post\"===t.type&&emit(t.theme,t)};",
+      "reduce": "(k,v,r)=>v.flat();"
+    }
+  },
+  "updates": {
+    "updateComments": "function(doc,req) { if (doc['type'] === 'post') { doc['comments'].push(JSON.parse(req.body)); return [doc, 'Post updated'];}return [null, 'Nothing updated']; }"
+  },
+  "language": "javascript"
+}

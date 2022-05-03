@@ -1,12 +1,28 @@
-import Head from 'next/head';
-import useSwr from 'swr';
+import Head from "next/head";
+import ShortPost from "@/components/MainPage/ShortPost";
+import ShortTheme from "@/components/MainPage/ShortTheme";
+import useSWR from "swr";
+import Link from "next/link";
 
 export default function Home() {
-  const { data, error } = useSwr(`/api/hello/`)
+  // Get the last posts and themes
+  const { data: postsData, error: postsError } = useSWR("/api/post");
+  const { data: themesData, error: themesError } = useSWR("/api/theme");
 
-  if (error) return <div> failed to load </div>
-  if (!data) return <div> loading... </div>
+  // If there is an error, show it
+  if (postsError || themesError) {
+    return <div>failed to load</div>;
+  }
 
+  // If there is no data, show a loading message
+  if (!postsData || !themesData) {
+    return <div>loading...</div>;
+  }
+
+  console.log(postsData);
+  console.log(themesData);
+
+  // If there is data, show it
   return (
     <div>
       <Head>
@@ -16,10 +32,52 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 >
-          Welcome to an app writed by {data.toString()}
-        </h1>
+        <h1 className="font-title text-4xl">Esto es un titulo de prueba</h1>
+        <h1 className="font-body text-lg">Esto es un titulo de prueba</h1>
+        {/* Noticias más recientes */}
+        {postsData !== "no existen" ? (
+          <div>
+            <h1>Posts más recientes</h1>
+            {postsData.rows.map((post) => (
+              <ShortPost
+                key={post.id}
+                id={post.id}
+                title={post.value.title}
+                username={post.value.username}
+                date={post.key}
+              />
+            ))}
+          </div>
+        ) : (
+          <div>Ha habido un problema al recuperar los posts</div>
+        )}
+
+        <br />
+        <br />
+
+        {/* Temas más populares */}
+        {themesData !== "no existen" ? (
+          <div>
+            <h1>Temas más populares</h1>
+            {themesData.rows.map((theme) => (
+              <ShortTheme
+                key={theme.key}
+                title={theme.key}
+                numberPosts={theme.value}
+              />
+            ))}
+          </div>
+        ) : (
+          <div>Ha habido un problema al recuperar los temas</div>
+        )}
+
+        <br />
+        <br />
+
+        <Link href="/theme/list">
+          <a>Ver todos los temas</a>
+        </Link>
       </main>
     </div>
-  )
+  );
 }
