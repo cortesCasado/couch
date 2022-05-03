@@ -96,22 +96,6 @@
             ]
         },
         {
-            "publication_date": "2022-04-17T13:47:11.900Z",
-            "type": "post",
-            "theme": "Actualidad",
-            "username": "paula_gomez",
-            "title": "Una gran semana santa",
-            "body": "Ya podemos volver a decir que quedan 356 para la próxima, gran cantidad de vivencias y emociones observando las imágenes",
-            "likes": 28,
-            "comments": [
-                {
-                    "username": "antonio-fernandez",
-                    "comment": "Y sobretodo ese olor a incienso, que maravilla",
-                    "publication_date": "2022-05-01T09:13:51.900Z"
-                }
-            ]
-        },
-        {
             "publication_date": "2022-05-02T16:51:11.900Z",
             "type": "post",
             "theme": "Moda",
@@ -266,6 +250,47 @@
             "type": "theme",
             "title": "Tecnología",
             "description": "Noticias de tecnología"
+        },
+        {
+            "_id": "_design/post",
+            "views": {
+                "posts": {
+                    "map": "t=>'post'===t.type&&emit(t._id,t);"
+                },
+                "by_date": {
+                    "map": "t=>'post'===t.type&&emit(t.publication_date,{title:t.title,username:t.username});"
+                },
+                "by_theme": {
+                    "map": "t=>{'post'===t.type&&emit(t.theme,t)};",
+                    "reduce": "(k,v,r)=>v.flat();"
+                }
+            },
+            "updates": {
+                "updateComments": "function(doc,req) { if (doc['type'] === 'post') { doc['comments'].push(JSON.parse(req.body)); return [doc, 'Post updated'];}return [null, 'Nothing updated']; }"
+            },
+            "language": "javascript"
+        },
+        {
+            "_id": "_design/theme",
+            "validate_doc_update": "function (newDoc,oldDoc,userCtx,secObj){function n(e,i){if(i=i||'Document must have a '+e,!newDoc[e])throw{forbidden:i}}if('theme'===newDoc.type){if(n('title'),n('description'),!newDoc.description)throw{forbidden:'Theme must have a description'};if('string'!=typeof newDoc.title)throw{forbidden:'Title must be a string'};if(newDoc.title.length>40)throw{forbidden:'Title must be under 40 characters'};if('string'!=typeof newDoc.description)throw{forbidden:'Description must be a string'};if(newDoc.description.length>150)throw{forbidden:'Description must be under 150 characters'}}}",
+            "views": {
+                "themes": {
+                    "map": "t=>{'theme'===t.type?emit(t.title,0):'post'===t.type&&emit(t.theme,1);};",
+                    "reduce": "_sum"
+                }
+            },
+            "language": "javascript"
+        },
+        {
+            "_id": "_design/search",
+            "views": {},
+            "language": "javascript",
+            "indexes": {
+                "post": {
+                    "analyzer": "spanish",
+                    "index": "t=>{index('default',t._id),'post'===t.type&&(index('title',t.title,{store:!0}),index('body',t.body,{store:!0}))};"
+                }
+            }
         }
     ]
 }
