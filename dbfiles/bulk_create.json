@@ -288,7 +288,7 @@
             "indexes": {
                 "post": {
                     "analyzer": "spanish",
-                    "index": "t=>{index('default',t._id),'post'===t.type&&(index('title',t.title,{store:!0}),index('body',t.body,{store:!0}))};"
+                    "index": "t=>{index('default',t._id),'post'===t.type&&(index('title',t.title,{store:!0}),index('body',t.body,{store:!0}),index('username',t.username,{store:!0}),index('publication_date',t.publication_date,{store:!0}))};"
                 }
             }
         }

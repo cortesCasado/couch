@@ -1,12 +1,10 @@
-import { useRouter } from 'next/router'
-import useSWR from "swr";
 import ShortPost from "@/components/MainPage/ShortPost";
 
 export default function Theme({ theme, posts }) {
 
     return (
-        <div>
-            <h1>{theme}</h1>
+        <div className="bg-white md:rounded-xl p-4 divide-y-2">
+            <h1 className="font-title text-4xl pb-4">{theme}</h1>
 
             {posts.map((post) => (
                 <ShortPost

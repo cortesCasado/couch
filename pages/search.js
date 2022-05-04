@@ -4,11 +4,11 @@ import SearchForm from "@/components/Forms";
 export default function Search({ posts, q }) {
 
     return (
-        <div>
+        <div >
             <SearchForm />
             {posts.total_rows ? (
-                <div>
-                    <h1>Resultados de la búsqueda {`"${q}"`}</h1>
+                <div className="bg-white md:rounded-xl p-4 divide-y-2">
+                    <h1 className="font-title text-4xl pb-4">Resultados de la búsqueda {`"${q}"`}</h1>
                     {posts.rows.map((post) => (
                         <ShortPost
                             key={post.id}
@@ -39,6 +39,9 @@ export default function Search({ posts, q }) {
         </div>
     )
 }
+
+
+
 
 export async function getServerSideProps(context) {
     const { q } = context.query;

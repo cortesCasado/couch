@@ -7,12 +7,10 @@ export default function List() {
   if (error) return <div> failed to load </div>;
   if (!data) return <div> loading... </div>;
 
-  console.log(data.rows);
-
   return (
 
-    <div>
-      <h1>Temas más populares</h1>
+    <div className="bg-white md:rounded-xl p-4 divide-y-2">
+      <h1 className="font-title text-4xl pb-4">Temas más populares</h1>
       {data.rows.map((theme) => (
         <ShortTheme
           key={theme.key}
