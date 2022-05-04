@@ -1,9 +1,10 @@
-import Head from "next/head";
 import ShortPost from "@/components/MainPage/ShortPost";
 import ShortTheme from "@/components/MainPage/ShortTheme";
 import SearchForm from "@/components/Forms";
 import useSWR from "swr";
 import Link from "next/link";
+import { Button } from "@/components/Button";
+import Head from "next/head";
 
 
 export default function Home() {
@@ -34,16 +35,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="grid grid-cols-1 md:grid-cols-2 gap-4 py-10 px-4 h-full bg-gray-200" >
 
         <SearchForm />
-
-        <h1 className="font-title text-4xl">Esto es un titulo de prueba</h1>
-        <h1 className="font-body text-lg">Esto es un titulo de prueba</h1>
         {/* Noticias más recientes */}
-        {postsData !== "no existen" ? (
-          <div>
-            <h1>Posts más recientes</h1>
+        {postsData.rows.length !== 0 ? (
+          <div className="bg-white md:rounded-xl p-4 divide-y-2">
+            <h1 className="font-title text-4xl pb-4">Posts más recientes</h1>
             {postsData.rows.map((post) => (
               <ShortPost
                 key={post.id}
@@ -55,16 +53,13 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div>Ha habido un problema al recuperar los posts</div>
+          <div>Todavía no se ha creado ningún post.</div>
         )}
 
-        <br />
-        <br />
-
         {/* Temas más populares */}
-        {themesData !== "no existen" ? (
-          <div>
-            <h1>Temas más populares</h1>
+        {themesData.rows.length !== 0 ? (
+          <div className="bg-white md:rounded-xl divide-y-2 p-4">
+            <h1 className="font-title text-4xl pb-4">Temas más populares</h1>
             {themesData.rows.map((theme) => (
               <ShortTheme
                 key={theme.key}
@@ -72,17 +67,17 @@ export default function Home() {
                 numberPosts={theme.value}
               />
             ))}
+            <div className="py-4">
+              <Link href="/theme/list">
+                <a><Button>Ver todos los temas</Button></a>
+              </Link>
+            </div>
           </div>
         ) : (
-          <div>Ha habido un problema al recuperar los temas</div>
+          <div>Todavía no se ha creado ningún tema.</div>
         )}
 
-        <br />
-        <br />
 
-        <Link href="/theme/list">
-          <a>Ver todos los temas</a>
-        </Link>
       </main>
     </div>
   );

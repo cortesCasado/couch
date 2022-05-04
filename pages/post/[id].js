@@ -5,8 +5,10 @@ import axios from "axios";
 import { DialogText } from "@/components/DialogText";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { Button } from "@/components/Button";
+import Image from "next/image";
 
-export default function PostDetails({ id, post }) {
+export default function PostDetails({ id, post, page }) {
 
   // Modal para el formulario de enviar comentario
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +16,9 @@ export default function PostDetails({ id, post }) {
   // Campos del formulario
   const [username, setUsername] = useState("");
   const [comment, setComment] = useState("");
+
+  // Número de comentarios por página
+  const [elementsPerPage, setElementsPerPage] = useState(5);
 
   const router = useRouter();
 
@@ -30,7 +35,7 @@ export default function PostDetails({ id, post }) {
 
     let message;
     await axios
-      .post(`/api/addComment/${id}`, data)
+      .put(`/api/addComment/${id}`, data)
       .then((res) => {
         message = res.data;
         alert(`${message}`);
@@ -43,11 +48,15 @@ export default function PostDetails({ id, post }) {
   }
 
   return (
-    <div>
-      {post !== "no existe" ? (
-        <div>
+    <div className="grid bg-gray-200 place-items-center md:py-4 h-full ">
+      {post.error !== 'not_found' ? (
+        <div className='bg-white p-6 md:rounded-xl w-full md:w-[750px] space-y-2 divide-y-2'>
           <Post post={post} />
-          {post.comments.map((comment) => (
+
+          <div className="font-title p-2 text-4xl">Comentarios</div>
+
+          <div className="divide-y-2">
+          {post.comments.slice((elementsPerPage*(page-1)), (elementsPerPage*(page-1)) + elementsPerPage).map((comment) => (
             <Comment
               key={comment.username}
               username={comment.username}
@@ -55,7 +64,18 @@ export default function PostDetails({ id, post }) {
               date={comment.publication_date}
             />
           ))}
-          <button onClick={() => setShowModal(true)}>Nuevo comentario</button>
+          </div>
+
+          <Button 
+            onClick={() => router.push(`${id}?page=${page - 1}`)} disabled={page <= 1}>
+            Página Anterior
+          </Button>
+          <Button onClick={() => router.push(`${id}?page=${+page + 1}`)} disabled={page >= Math.ceil(post.comments.length/elementsPerPage)}>
+            Página Siguiente
+          </Button>
+          <br/>
+
+          <Button onClick={() => setShowModal(true)}>Nuevo comentario</Button>
           {showModal && (
             <DialogText
               title="Nuevo comentario"
@@ -65,8 +85,8 @@ export default function PostDetails({ id, post }) {
               visibleAcceptButton={false}
               visibleCancelButton={false}
             >
-              <form onSubmit={handleSubmit} method="POST">
-                <label htmlFor="username">Nombre de usuario:</label>
+              <form onSubmit={handleSubmit} method="POST" className="space-y-4">
+                <label htmlFor="username" className="px-2">Nombre de usuario:</label>
                 <input
                   required
                   maxLength="40"
@@ -74,9 +94,10 @@ export default function PostDetails({ id, post }) {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  className='border-2 border-black'
                 />
                 <br />
-                <label htmlFor="comment">Comentario:</label>
+                <label htmlFor="comment" className="px-2">Comentario:</label>
                 <input
                   required
                   maxLength="1000"
@@ -84,11 +105,12 @@ export default function PostDetails({ id, post }) {
                   type="text"
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
+                  className='border-2 border-black'
                 />
                 <br />
-                <button type="submit" className="border">
+                <Button type="submit">
                   Enviar
-                </button>
+                </Button>
               </form>
             </DialogText>
           )}
@@ -101,7 +123,11 @@ export default function PostDetails({ id, post }) {
 }
 
 export async function getServerSideProps(context) {
-  const { id } = context.query;
+  let { id, page } = context.query;
+  
+  if (page === undefined || page <= 0) {
+    page = 1;
+  }
 
   const options = {
     method: "GET",
@@ -113,8 +139,9 @@ export async function getServerSideProps(context) {
     },
   };
 
+  let post;
 
-  const post = await fetch(
+  post = await fetch(
     `http://localhost:5984/${process.env.DBNAME}/${id}`,
     options
   )
@@ -127,6 +154,7 @@ export async function getServerSideProps(context) {
     props: {
       id: id,
       post: post,
+      page: page
     },
   };
 }
