@@ -35,9 +35,7 @@ export async function putTheme(body) {
   const uuids = await getUUID(1);
 
   const JSONdata = JSON.stringify({
-    _id: uuids[1],
-    type: "theme",
-    postsCount: 1,
+    _id: uuids[0],
     ...body,
   });
 
@@ -112,7 +110,7 @@ export async function getThemeByTitle(title) {
         $eq: "theme",
       },
       title: {
-        $eq: title,
+        $regex: `(?i)^${title}$`,
       },
     },
   });

@@ -34,4 +34,4 @@ yarn-error.log*
 
 # docker
 /data
-
+docker/data/*
