@@ -13,13 +13,16 @@
 version: '3.8'
 services:
   couchdb1:
-    image: couchdb:3.1.0
+    image: couchdb:3
     restart: always
     ports:
       - 5984:5984
     environment:
-      - NODENAME=10.0.0.10
-      - ERL_FLAGS=-setcookie monster
+      COUCHDB_USER: ${COUCHDB_USER}
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
+      COUCHDB_SECRET: ${COUCHDB_SECRET}
+      NODENAME: 10.0.0.10
+      ERL_FLAGS: "-setcookie ${COUCHDB_COOKIE}"
     volumes:
       - ./config/couchdb:/opt/couchdb/etc/local.d
       - ./data/couchdb/1:/opt/couchdb/data
@@ -37,7 +40,7 @@ services:
     volumes:
       - ./config/clouseau:/config
       - ./data/clouseau/1:/data
-      - ./clouseau-2.17.0:/app
+      - ./clouseau-2.21.0:/app
     network_mode: service:couchdb1
 
 networks:
