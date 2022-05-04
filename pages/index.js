@@ -1,6 +1,6 @@
 import ShortPost from "@/components/MainPage/ShortPost";
 import ShortTheme from "@/components/MainPage/ShortTheme";
-import SearchForm from "@/components/Forms";
+import SearchForm from "@/components/Forms/SearchForm";
 import useSWR from "swr";
 import Link from "next/link";
 import { Button } from "@/components/Button";
@@ -51,6 +51,11 @@ export default function Home() {
                 date={post.key}
               />
             ))}
+            <div className="py-4">
+              <Link href="post/create">
+                <a><Button>Crear post</Button></a>
+              </Link>
+            </div>
           </div>
         ) : (
           <div>Todavía no se ha creado ningún post.</div>
@@ -67,9 +72,12 @@ export default function Home() {
                 numberPosts={theme.value}
               />
             ))}
-            <div className="py-4">
+            <div className="py-4 flex justify-center">
               <Link href="/theme/list">
                 <a><Button>Ver todos los temas</Button></a>
+              </Link>
+              <Link href="/theme/create">
+                <a><Button>Crear temática</Button></a>
               </Link>
             </div>
           </div>

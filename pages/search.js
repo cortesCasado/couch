@@ -1,5 +1,5 @@
 import ShortPost from "@/components/MainPage/ShortPost";
-import SearchForm from "@/components/Forms";
+import SearchForm from "@/components/Forms/SearchForm";
 
 export default function Search({ posts, q }) {
 

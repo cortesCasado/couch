@@ -1,33 +1,27 @@
-import { useRouter } from "next/router";
-import { Button } from "@/components/Button";
-
-export default function SearchForm() {
-    const router = useRouter();
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const q = event.target.q.value;
-        if (q.trim().length >= 2) {
-            router.push(`/search?q=${q}`);
-        }
-    }
-
+/**
+ * Return the field text object.
+ * @param  {string} label - Label of the field.
+ * @param  {any} value - Value of the field.
+ * @param  {string} placeholder - Placeholder of the field.
+ * @param  {string} name - Name of the field.
+ * @param  {function} onChange - Callback function to be called when field is changed.
+ */
+export const FieldTextBox = ({ label, value, id, placeholder = "", min = null, pattern = null, type = "text", name, onChange, required = false }) => {
     return (
-        <div className="opacity-85">
-            <form onSubmit={handleSubmit}>
-                <div className="flex w-[400px]">
-                    {/* Search bar */}
-                    <input type="text" name="Search" placeholder="Lucene query" className="bg-gray-50 opacity-90 appearance-none border-2 border-gray-200 rounded w-11/12 h-[40px] mt-2 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-bondi" id="q"></input>
-                    {/* Search button */}
-                    <Button type="submit">
-                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </Button>
-                </div>
-            </form>
+        <div className="w-full">
+            <label className="pl-2 font-medium" htmlFor={id}>{label}
+                <input type={type} name={name} id={id} value={value} min={min} maxLength="20" pattern={pattern} onChange={onChange} placeholder={placeholder} className="mx-2 my-2 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-bondi" required={required}></input>
+            </label>
         </div>
     );
-}
+};
 
-
+export const FieldTextAreaBox = ({ label, value, id, placeholder = "", min = null, pattern = null, type = "text", name, onChange, required = false }) => {
+    return (
+        <div className="w-full">
+            <label className="pl-2 font-medium" htmlFor={id}>{label}
+                <textarea name={name} id={id} value={value} min={min} pattern={pattern} maxLength="250" onChange={onChange} placeholder={placeholder} className="mx-2 my-2 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-bondi" required={required}></textarea>
+            </label>
+        </div>
+    );
+};

@@ -1,4 +1,10 @@
+
+import { FieldTextBox, FieldTextAreaBox } from "@/components/Forms";
+import { Button } from "@/components/Button";
+import { useRouter } from "next/router";
+
 export default function CreatePost() {
+  const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -29,23 +35,24 @@ export default function CreatePost() {
 
     const result = await response.json();
     alert(`${result.message}`);
+    // router.push("/");
+
   };
+
   return (
-    // We pass the event to the handleSubmit() function on submit.
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="themeTitle">Temática</label>
-      <input type="text" id="themeTitle" name="themeTitle" required />
-
-      <label htmlFor="username">Nickname</label>
-      <input type="text" id="username" name="username" required />
-
-      <label htmlFor="title">Título</label>
-      <input type="text" id="title" name="title" required />
-
-      <label htmlFor="body">Cuerpo</label>
-      <input type="text" id="body" name="body" required />
-
-      <button type="submit">Publicar</button>
-    </form>
+    <div className="md:bg-gray-100 flex justify-center items-center">
+      <main id='main' className="md:bg-white p-5 pl-10 pr-10 md:w-4/5 w-full h-full md:h-3/4 md:min-h-[769px] md:mt-8 md:mb-8 md:rounded-xl md:border md:border-[#4aa7c0] relative md:shadow-lg">
+        <h2 className="text-2xl font-bold text-gray-500 text-center">Crea tu post!</h2>
+        <form onSubmit={handleSubmit}>
+          <FieldTextBox label="Temática" id="themeTitle" name="themeTitle" />
+          <FieldTextBox label="Autor" id="username" name="username" />
+          <FieldTextBox label="Título" id="title" name="title" />
+          <FieldTextAreaBox label="Cuerpo" id="body" name="body" />
+          <Button type="submit">Publicar
+          </Button>
+        </form>
+        <hr className="my-4" />
+      </main >
+    </div >
   );
 }
