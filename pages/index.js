@@ -1,10 +1,13 @@
 import Head from "next/head";
 import ShortPost from "@/components/MainPage/ShortPost";
 import ShortTheme from "@/components/MainPage/ShortTheme";
+import SearchForm from "@/components/Forms";
 import useSWR from "swr";
 import Link from "next/link";
 
+
 export default function Home() {
+
   // Get the last posts and themes
   const { data: postsData, error: postsError } = useSWR("/api/post");
   const { data: themesData, error: themesError } = useSWR("/api/theme");
@@ -19,8 +22,8 @@ export default function Home() {
     return <div>loading...</div>;
   }
 
-  console.log(postsData);
-  console.log(themesData);
+
+
 
   // If there is data, show it
   return (
@@ -32,6 +35,9 @@ export default function Home() {
       </Head>
 
       <main>
+
+        <SearchForm />
+
         <h1 className="font-title text-4xl">Esto es un titulo de prueba</h1>
         <h1 className="font-body text-lg">Esto es un titulo de prueba</h1>
         {/* Noticias más recientes */}
