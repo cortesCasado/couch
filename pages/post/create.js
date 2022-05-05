@@ -1,9 +1,32 @@
 import axios from "axios";
-import { FieldTextBox, FieldTextAreaBox } from "@/components/Forms";
+import { FieldTextBox, FieldTextAreaBox, FieldSelectorBox } from "@/components/Forms";
 import { Button } from "@/components/Button";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+import { useState } from "react";
 
 export default function CreatePost() {
+
+  const { data: themesData, error: themesError } = useSWR("/api/theme");
+  const [tematica, setTematica] = useState(getFirstTheme(themesData));
+
+  const options = [];
+
+  if (themesData !== undefined) {
+    themesData.map(x => 
+      options.push({
+        label:x.key,
+        value:x.key
+      }));
+  }
+
+  // Evita too many re-renders error
+  function getFirstTheme(themesData) {
+    if (themesData !== undefined) {
+      return themesData[0].key;
+    }
+  }
+
   const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -11,7 +34,7 @@ export default function CreatePost() {
     const data = {
       publication_date: new Date().toISOString(),
       type: "post",
-      theme: event.target.themeTitle.value,
+      theme: tematica,
       username: event.target.username.value,
       title: event.target.title.value,
       body: event.target.body.value,
@@ -52,7 +75,15 @@ export default function CreatePost() {
       <main id='main' className="md:bg-white p-5 pl-10 pr-10 md:w-4/5 w-full h-full md:h-3/4 md:min-h-[769px] md:mt-8 md:mb-8 md:rounded-xl md:border md:border-[#4aa7c0] relative md:shadow-lg">
         <h2 className="text-2xl font-bold text-gray-500 text-center">Crea tu post!</h2>
         <form onSubmit={handleSubmit}>
-          <FieldTextBox label="Temática" id="themeTitle" name="themeTitle" required={true} />
+
+          <FieldSelectorBox label="Temática"
+            options={options}
+            onChange={(e) => {
+                setTematica(e.target.value);
+            }}
+            required={true}
+          />
+
           <FieldTextBox label="Autor" id="username" name="username" required={true} />
           <FieldTextBox label="Título" id="title" name="title" required={true} />
           <FieldTextAreaBox label="Cuerpo" id="body" name="body" required={true} />
