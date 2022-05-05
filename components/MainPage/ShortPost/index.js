@@ -8,7 +8,7 @@ function index({ id, title, username, date }) {
         <a>
           <div className="cursor-pointer font-body text-lg">
             <p>
-              {title} ({new Date(date).toLocaleString("es-ES")})
+              {title} ({new Date(date).toLocaleString("es-ES", { timeZone: 'UTC' })})
             </p>
             <p>Autor: {username}</p>
           </div>
