@@ -6,15 +6,19 @@ export default function Theme({ theme, posts }) {
         <div className="bg-white md:rounded-xl p-4 divide-y-2">
             <h1 className="font-title text-4xl pb-4">{theme}</h1>
 
-            {posts.map((post) => (
-                <ShortPost
-                    key={post._id}
-                    id={post._id}
-                    title={post.title}
-                    username={post.username}
-                    date={post.publication_date}
-                />
-            ))}
+            {posts !== 'no hay' ?
+                (posts.map((post) => (
+                    <ShortPost
+                        key={post._id}
+                        id={post._id}
+                        title={post.title}
+                        username={post.username}
+                        date={post.publication_date}
+                    />
+                ))) : 
+                (
+                    <div className="font-body text-lg py-4">Aún no hay posts de este tema. ¡Anímate a ser el primero y crear uno!</div>
+                )}
         </div>
     );
 };
@@ -37,10 +41,17 @@ export async function getServerSideProps(context) {
 
     console.log(data);
 
+    let posts;
+    if (data.rows.length === 0) {
+        posts = 'no hay';
+    } else {
+        posts = data.rows[0].value;
+    }
+
     return {
         props: {
-            theme: data.rows[0].key,
-            posts: data.rows[0].value,
+            theme: title,
+            posts: posts,
         },
     };
 }
