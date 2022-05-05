@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
         if (dbResponse === 201) {
           res.status(201).json({
-            message: "Post creado correctamente",
+            message: "Post creado correctamente.",
           });
         } else {
           res.status(dbResponse.status);
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
       } else {
         // Alertar que la temática no existe
         res.status(400).json({
-          message: "La temática no existe",
+          message: "La temática no existe.",
         });
       }
 
