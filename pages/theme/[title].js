@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
         },
     };
 
-    const res = await fetch(`http://localhost:5984/${process.env.DBNAME}/_design/post/_view/by_theme?group=true&key="${title}"`, options);
+    const res = await fetch(`${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/post/_view/by_theme?group=true&key="${title}"`, options);
     const data = await res.json();
 
     console.log(data);

@@ -60,7 +60,7 @@ export async function getServerSideProps(context) {
         })
     };
 
-    const endpoint = `http://localhost:5984/${process.env.DBNAME}/_design/search/_search/post`;
+    const endpoint = `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/search/_search/post`;
 
     const response = await fetch(endpoint, options);
 

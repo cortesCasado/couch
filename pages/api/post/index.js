@@ -70,7 +70,7 @@ export async function putPost(body) {
   };
 
   return await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/${uuids[0]}`,
+    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/${uuids[0]}`,
     options
   )
     .then((r) => r.status)
@@ -92,7 +92,7 @@ export async function getLastPosts() {
   };
 
   return await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/_design/post/_view/by_date?descending=true&limit=10`,
+    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/post/_view/by_date?descending=true&limit=10`,
     options
   )
     .then((res) => res.json())

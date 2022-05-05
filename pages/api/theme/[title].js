@@ -28,7 +28,7 @@ export async function getThemePosts(title) {
     };
 
     return await fetch(
-        `http://localhost:5984/${process.env.DBNAME}/_design/post/_view/by_theme?group=true&key="${title}"`,
+        `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/post/_view/by_theme?group=true&key="${title}"`,
         options
     )
         .then((res) => res.json().then(data => data.rows[0]))

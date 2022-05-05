@@ -103,6 +103,15 @@ services:
       - ./clouseau-2.21.0:/app
     network_mode: service:couchdb-2
 
+  couch-forum:
+    image: couch-forum
+    ports: 
+      - "3000:3000"
+    networks:
+      network:
+        aliases:
+          - couch-forum
+
 networks:
   network:
 
