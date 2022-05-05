@@ -11,7 +11,7 @@ export default function List() {
 
     <div className="bg-white md:rounded-xl p-4 divide-y-2">
       <h1 className="font-title text-4xl pb-4">Temas más populares</h1>
-      {data.rows.map((theme) => (
+      {data.map((theme) => (
         <ShortTheme
           key={theme.key}
           title={theme.key}
