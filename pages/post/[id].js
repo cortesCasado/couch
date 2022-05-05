@@ -142,7 +142,7 @@ export async function getServerSideProps(context) {
   let post;
 
   post = await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/${id}`,
+    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/${id}`,
     options
   )
     .then((res) => res.json())

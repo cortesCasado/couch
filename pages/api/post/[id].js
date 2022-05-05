@@ -28,7 +28,7 @@ export async function getPostById(id) {
     };
 
     return await fetch(
-        `http://localhost:5984/${process.env.DBNAME}/${id}`,
+        `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/${id}`,
         options
     )
         .then((res) => res.json())

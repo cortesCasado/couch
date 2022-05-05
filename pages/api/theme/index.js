@@ -52,7 +52,7 @@ export async function putTheme(body) {
   };
 
   return await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/${uuids[0]}`,
+    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/${uuids[0]}`,
     options
   )
     .then(() => "Tema creado con éxito.")
@@ -76,7 +76,7 @@ export async function getThemes() {
   };
 
   return await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/_design/theme/_view/themes?group_level=1&descending=true&limit=10`,
+    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/theme/_view/themes?group_level=1&descending=true&limit=10`,
     options
   )
     .then((r) => r.json().then((data) => data.rows.sort((a, b) => b.value - a.value)))
@@ -96,7 +96,7 @@ export async function getThemes() {
 //   };
 
 //   return await fetch(
-//     `http://localhost:5984/${process.env.DBNAME}/_design/theme/_view/by_popularity?group=true&limit=10`,
+//     `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/theme/_view/by_popularity?group=true&limit=10`,
 //     options
 //   )
 //     .then((r) => r.json())
@@ -128,7 +128,7 @@ export async function getThemeByTitle(title) {
   };
 
   return await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/_find`,
+    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_find`,
     options
   )
     .then((r) => r.json().then((data) => data.docs))

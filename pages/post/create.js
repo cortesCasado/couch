@@ -1,4 +1,4 @@
-
+import axios from "axios";
 import { FieldTextBox, FieldTextAreaBox } from "@/components/Forms";
 import { Button } from "@/components/Button";
 import { useRouter } from "next/router";
@@ -31,23 +31,31 @@ export default function CreatePost() {
       body: JSONdata,
     };
 
-    const response = await fetch(endpoint, options);
+    let message;
 
-    const result = await response.json();
-    alert(`${result.message}`);
-    // router.push("/");
+    await axios
+      .put(endpoint, data)
+      .then((res) => {
+        message = res.data.message;
+        alert(`${message}`);
+        router.push('/');
+    })
+      .catch((err) => {
+        message = err.response.data.message;
+        alert(`${message}`);
+    });
 
-  };
+  }
 
   return (
     <div className="md:bg-gray-100 flex justify-center items-center">
       <main id='main' className="md:bg-white p-5 pl-10 pr-10 md:w-4/5 w-full h-full md:h-3/4 md:min-h-[769px] md:mt-8 md:mb-8 md:rounded-xl md:border md:border-[#4aa7c0] relative md:shadow-lg">
         <h2 className="text-2xl font-bold text-gray-500 text-center">Crea tu post!</h2>
         <form onSubmit={handleSubmit}>
-          <FieldTextBox label="Temática" id="themeTitle" name="themeTitle" />
-          <FieldTextBox label="Autor" id="username" name="username" />
-          <FieldTextBox label="Título" id="title" name="title" />
-          <FieldTextAreaBox label="Cuerpo" id="body" name="body" />
+          <FieldTextBox label="Temática" id="themeTitle" name="themeTitle" required={true} />
+          <FieldTextBox label="Autor" id="username" name="username" required={true} />
+          <FieldTextBox label="Título" id="title" name="title" required={true} />
+          <FieldTextAreaBox label="Cuerpo" id="body" name="body" required={true} />
           <Button type="submit">Publicar
           </Button>
         </form>

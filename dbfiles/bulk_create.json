@@ -253,7 +253,7 @@
         },
         {
             "_id": "_design/post",
-            "validate_doc_update": "(t,e,i,r)=>{function n(e,i){if(i=i||'Document must have a '+e,!t[e])throw{forbidden:i}}if('post'===t.type){if(n('title'),n('body'),n('pulication_date'),n('username'),'string'!=typeof t.title)throw{forbidden:'Title must be a string'};if(t.title.length>40)throw{forbidden:'Title must be under 40 characters'};if('string'!=typeof t.body)throw{forbidden:'Body must be a string'};if(t.body.length>500)throw{forbidden:'Body must be under 500 characters'};if('string'!=typeof t.username)throw{forbidden:'Username must be a string'};if(t.username.length>40)throw{forbidden:'Username must be under 40 characters'};if('string'!=typeof t.pulication_date&&isNaN(new Date(t.pulication_date)))throw{forbidden:'Publication date must be a date representative string'}}};",
+            "validate_doc_update": "(t,e,i,r)=>{function n(e,i){if(i=i||'Document must have a '+e,!t[e])throw{forbidden:i}}if('post'===t.type){if(n('title'),n('body'),n('publication_date'),n('username'),'string'!=typeof t.title)throw{forbidden:'Title must be a string'};if(t.title.length>40)throw{forbidden:'Title must be under 40 characters'};if('string'!=typeof t.body)throw{forbidden:'Body must be a string'};if(t.body.length>500)throw{forbidden:'Body must be under 500 characters'};if('string'!=typeof t.username)throw{forbidden:'Username must be a string'};if(t.username.length>40)throw{forbidden:'Username must be under 40 characters'};if('string'!=typeof t.publication_date&&isNaN(new Date(t.publication_date)))throw{forbidden:'Publication date must be a date representative string'}}};",
             "views": {
                 "posts": {
                     "map": "t=>'post'===t.type&&emit(t._id,t);"

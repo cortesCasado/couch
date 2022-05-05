@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
         if (dbResponse === 201) {
           res.status(201).json({
-            message: "Post creado correctamente",
+            message: "Post creado correctamente.",
           });
         } else {
           res.status(dbResponse.status);
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
       } else {
         // Alertar que la temática no existe
         res.status(400).json({
-          message: "La temática no existe",
+          message: "La temática no existe.",
         });
       }
 
@@ -70,7 +70,7 @@ export async function putPost(body) {
   };
 
   return await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/${uuids[0]}`,
+    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/${uuids[0]}`,
     options
   )
     .then((r) => r.status)
@@ -92,7 +92,7 @@ export async function getLastPosts() {
   };
 
   return await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/_design/post/_view/by_date?descending=true&limit=10`,
+    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/post/_view/by_date?descending=true&limit=10`,
     options
   )
     .then((res) => res.json())
