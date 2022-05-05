@@ -67,8 +67,45 @@ services:
         aliases:
           - nginx
 
+  clouseau-0:
+    image: openjdk:8
+    command: >
+      java -server -classpath '/app/*' -Xmx2G -Dsun.net.inetaddr.ttl=30 -Dsun.net.inetaddr.negative.ttl=30 -Dlog4j.configuration=file:/config/log4j.properties -XX:OnOutOfMemoryError="kill -9 %p" -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled com.cloudant.clouseau.Main /config/clouseau.ini
+    restart: always
+    depends_on:
+      - couchdb-0
+    volumes:
+      - ./config/clouseau:/config
+      - ./clouseau-2.21.0:/app
+    network_mode: service:couchdb-0
+
+  clouseau-1:
+    image: openjdk:8
+    command: >
+      java -server -classpath '/app/*' -Xmx2G -Dsun.net.inetaddr.ttl=30 -Dsun.net.inetaddr.negative.ttl=30 -Dlog4j.configuration=file:/config/log4j.properties -XX:OnOutOfMemoryError="kill -9 %p" -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled com.cloudant.clouseau.Main /config/clouseau.ini
+    restart: always
+    depends_on:
+      - couchdb-1
+    volumes:
+      - ./config/clouseau:/config
+      - ./clouseau-2.21.0:/app
+    network_mode: service:couchdb-1
+
+  clouseau-2:
+    image: openjdk:8
+    command: >
+      java -server -classpath '/app/*' -Xmx2G -Dsun.net.inetaddr.ttl=30 -Dsun.net.inetaddr.negative.ttl=30 -Dlog4j.configuration=file:/config/log4j.properties -XX:OnOutOfMemoryError="kill -9 %p" -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled com.cloudant.clouseau.Main /config/clouseau.ini
+    restart: always
+    depends_on:
+      - couchdb-2
+    volumes:
+      - ./config/clouseau:/config
+      - ./clouseau-2.21.0:/app
+    network_mode: service:couchdb-2
+
 networks:
   network:
+
 
 volumes:
   data-couch-0:

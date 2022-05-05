@@ -1,4 +1,5 @@
 import { getUUID } from "@/api/_utils";
+import { data } from "autoprefixer";
 
 // Endpoint for theme API:  /api/theme
 export default async function handler(req, res) {
@@ -78,29 +79,29 @@ export async function getThemes() {
     `http://localhost:5984/${process.env.DBNAME}/_design/theme/_view/themes?group_level=1&descending=true&limit=10`,
     options
   )
-    .then((r) => r.json())
+    .then((r) => r.json().then((data) => data.rows.sort((a, b) => b.value - a.value)))
     .catch((err) => err);
 }
 
 // Get most popular themes
-export async function getMostPopularThemes() {
-  const options = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Basic ${Buffer.from(
-        `${process.env.ADMIN}:${process.env.PASSWORD}`
-      ).toString("base64")}`,
-    },
-  };
+// export async function getMostPopularThemes() {
+//   const options = {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Basic ${Buffer.from(
+//         `${process.env.ADMIN}:${process.env.PASSWORD}`
+//       ).toString("base64")}`,
+//     },
+//   };
 
-  return await fetch(
-    `http://localhost:5984/${process.env.DBNAME}/_design/theme/_view/by_popularity?group=true&limit=10`,
-    options
-  )
-    .then((r) => r.json())
-    .catch((err) => err);
-}
+//   return await fetch(
+//     `http://localhost:5984/${process.env.DBNAME}/_design/theme/_view/by_popularity?group=true&limit=10`,
+//     options
+//   )
+//     .then((r) => r.json())
+//     .catch((err) => err);
+// }
 
 // Get theme by title
 export async function getThemeByTitle(title) {
