@@ -83,26 +83,6 @@ export async function getThemes() {
     .catch((err) => err);
 }
 
-// Get most popular themes
-// export async function getMostPopularThemes() {
-//   const options = {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Basic ${Buffer.from(
-//         `${process.env.ADMIN}:${process.env.PASSWORD}`
-//       ).toString("base64")}`,
-//     },
-//   };
-
-//   return await fetch(
-//     `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/theme/_view/by_popularity?group=true&limit=10`,
-//     options
-//   )
-//     .then((r) => r.json())
-//     .catch((err) => err);
-// }
-
 // Get theme by title
 export async function getThemeByTitle(title) {
   const JSONdata = JSON.stringify({

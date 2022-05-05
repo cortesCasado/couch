@@ -18,8 +18,8 @@ export default function Search({ posts, q }) {
                     ))}
                 </div>
             ) : (
-                <div className="ml-4">
-                    <h1 className="font-title text-4xl pb-4">No se han encontrado posts para la consulta {`"${q}"`}</h1>
+                <div className="ml-4 p-4 text-lg">
+                    <h1 className="font-title text-4xl py-2">No se han encontrado posts para la consulta {`"${q}"`}</h1>
                     <p className="font-body">
                         Para más información sobre como realizar búsquedas avanzadas, ver el <a className="text-blue-400 underline" href="
                     https://lucene.apache.org/core/2_9_4/queryparsersyntax.html" target="_blank"> manual de Lucene</a>.
