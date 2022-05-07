@@ -38,7 +38,6 @@ export default function CreatePost() {
       username: event.target.username.value,
       title: event.target.title.value,
       body: event.target.body.value,
-      likes: 0,
       comments: [],
     };
 

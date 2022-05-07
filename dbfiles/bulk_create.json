@@ -7,7 +7,6 @@
             "username": "luimorales",
             "title": "Madrid campeón de la liga",
             "body": "Viva el madrid!! Menudo partidazo ayer ante el Espanyol",
-            "likes": 8,
             "comments": [
                 {
                     "username": "joan_perez",
@@ -23,7 +22,6 @@
             "username": "juliGar",
             "title": "Se viene Roland Garros",
             "body": "No puede esperar ya a que llegue junio, aunque por desgracia este año tiene pinta de que va a ganar Djokovic",
-            "likes": -2,
             "comments": [
                 {
                     "username": "nadal5555",
@@ -44,7 +42,6 @@
             "username": "juliGar",
             "title": "Top 3 históricos fútbol",
             "body": "Quienes diriais que es vuestro top 3 históricos? yo creo que Maradona, Messi y Pele",
-            "likes": 96,
             "comments": [
                 {
                     "username": "cristiano",
@@ -65,7 +62,6 @@
             "username": "manu_gomez",
             "title": "Ya huele a feria",
             "body": "Que alegría volver a pisar el real después de tanto tiempo, aunque se me había olvidado ya el dolor de pies y todo jajajajaaja",
-            "likes": 12,
             "comments": [
                 {
                     "username": "paloma",
@@ -86,7 +82,6 @@
             "username": "paula_gomez",
             "title": "Una gran semana santa",
             "body": "Ya podemos volver a decir que quedan 356 para la próxima, gran cantidad de vivencias y emociones observando las imágenes",
-            "likes": 28,
             "comments": [
                 {
                     "username": "antonio-fernandez",
@@ -102,7 +97,6 @@
             "username": "villael",
             "title": "Tendencias 2022",
             "body": "Las expertas en moda dan un giro al sastre clásico tiñéndolo de colores vibrantes y llamativos. Naranja, verde esmeralda, fucsia... Esta primavera-verano el traje de chaqueta es todo menos discreto. ¿Qué os parece?",
-            "likes": 15,
             "comments": [
                 {
                     "username": "antonio-fernandez",
@@ -118,7 +112,6 @@
             "username": "lumier",
             "title": "Sobre la vida",
             "body": "Pues como lo leeis, justo hoy ha sido uno de esos días en los que sonries y te sientes afortunado por estar rodeado de las personas más cercanas. ¿Qué os parece?",
-            "likes": 15,
             "comments": [
                 {
                     "username": "antonio-fernandez",
@@ -134,7 +127,6 @@
             "username": "paula_gomez",
             "title": "Festival de música",
             "body": "Buenas, estoy pensando en algún festival de música urbana para un regalo por Comunidad Valenciana. alguna recomendacion???",
-            "likes": 105,
             "comments": [
                 {
                     "username": "marioRosi",
@@ -160,7 +152,6 @@
             "username": "pilarGe",
             "title": "Nuevo albúm de Kendrick Lamar",
             "body": "Que ganas de escuchar lo nuevo de Kendrik, se sabe si hay alguna colaboración así interesante??",
-            "likes": 24,
             "comments": [
                 {
                     "username": "julin",
@@ -174,9 +165,8 @@
             "type": "post",
             "theme": "Ciencia",
             "username": "quantumFracture",
-            "title": "Vídeo sobre los descubrimientos cientificos mas frecuentes",
+            "title": "Vídeo sobre descubrimientos cientificos",
             "body": "He subido un nuevo video a mi canal de Youtube con los nuevos descubrimientos hechos en Marte. Espero que os guste!!!",
-            "likes": 37,
             "comments": [
                 {
                     "username": "julin",
@@ -192,7 +182,6 @@
             "username": "elonery",
             "title": "Nuevas baterías",
             "body": "Se ha descubierto un nuevo material con el que hacer baterías que serán más económicas y se podrán usar en el hogar. ¿Qué os parece?",
-            "likes": 0,
             "comments": []
         },
         {
@@ -202,7 +191,6 @@
             "username": "elonery",
             "title": "Carnavales de cádiz",
             "body": "Se abre el plazo de inscripciones para los carnavales de cádiz. Ya hemos reunido a 23 personas para formar una agrupación. Se aceptan miembros hasta el día 15 de junio. Para más información, puedes consultar el siguiente enlace: https://www.cadizcarnaval.com/",
-            "likes": 34,
             "comments": [
                 {
                     "username": "julin",
@@ -253,7 +241,7 @@
         },
         {
             "_id": "_design/post",
-            "validate_doc_update": "(t,e,i,r)=>{function n(e,i){if(i=i||'Document must have a '+e,!t[e])throw{forbidden:i}}if('post'===t.type){if(n('title'),n('body'),n('publication_date'),n('username'),'string'!=typeof t.title)throw{forbidden:'Title must be a string'};if(t.title.length>40)throw{forbidden:'Title must be under 40 characters'};if('string'!=typeof t.body)throw{forbidden:'Body must be a string'};if(t.body.length>500)throw{forbidden:'Body must be under 500 characters'};if('string'!=typeof t.username)throw{forbidden:'Username must be a string'};if(t.username.length>40)throw{forbidden:'Username must be under 40 characters'};if('string'!=typeof t.publication_date&&isNaN(new Date(t.publication_date)))throw{forbidden:'Publication date must be a date representative string'}}};",
+            "validate_doc_update": "function (e,t,n,r){function i(t,n){if(n=n||'Document must have a '+t,!e[t])throw{forbidden:n}}if('post'===e.type){if(i('title'),i('theme'),i('body'),i('publication_date'),i('username'),i('comments'),'string'!=typeof e.title)throw{forbidden:'Title must be a string'};if(e.title.length>40)throw{forbidden:'Title must be under 40 characters'};if('string'!=typeof e.theme)throw{forbidden:'Theme must be a string'};if('string'!=typeof e.body)throw{forbidden:'Body must be a string'};if(e.body.length>500)throw{forbidden:'Body must be under 500 characters'};if('string'!=typeof e.username)throw{forbidden:'Username must be a string'};if(e.username.length>40)throw{forbidden:'Username must be under 40 characters'};if('string'!=typeof e.publication_date&&isNaN(new Date(e.publication_date))||!0!==/\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z/.test(e.publication_date))throw{forbidden:'Publication date must be a date representative string in ISO format'};if(!Array.isArray(e.comments))throw{forbidden:'Comments must be an array'};for(let t of e.comments){if(!t.username)throw{forbidden:'All comments must have username'};if(!t.publication_date)throw{forbidden:'All comments must have publication date'};if(!t.comment)throw{forbidden:'All comments must have an text'};if('string'!=typeof t.username)throw{forbidden:'Username for a comment must be a string'};if(t.username.length>40)throw{forbidden:'Username for a comment must be under 40 characters'};if('string'!=typeof t.comment)throw{forbidden:'All comments must be strings'};if(t.comment.length>500)throw{forbidden:'All comments must be under 500 characters'};if('string'!=typeof t.publication_date&&isNaN(new Date(t.publication_date))||!0!==/\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z/.test(t.publication_date))throw{forbidden:'Publication date of comments must be a date representative string in ISO format'}}}}",
             "views": {
                 "posts": {
                     "map": "t=>'post'===t.type&&emit(t._id,t);"
