@@ -76,10 +76,10 @@ export async function getThemes() {
   };
 
   return await fetch(
-    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/theme/_view/themes?group_level=1&descending=true&limit=10`,
+    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/theme/_view/themes?group=true`,
     options
   )
-    .then((r) => r.json().then((data) => data.rows.sort((a, b) => b.value - a.value)))
+    .then((r) => r.json().then((data) => data.rows.sort((a, b) => b.value - a.value).slice(0, 10)))
     .catch((err) => err);
 }
 

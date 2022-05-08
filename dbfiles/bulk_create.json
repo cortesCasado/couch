@@ -7,7 +7,6 @@
             "username": "luimorales",
             "title": "Madrid campeón de la liga",
             "body": "Viva el madrid!! Menudo partidazo ayer ante el Espanyol",
-            "likes": 8,
             "comments": [
                 {
                     "username": "joan_perez",
@@ -23,7 +22,6 @@
             "username": "juliGar",
             "title": "Se viene Roland Garros",
             "body": "No puede esperar ya a que llegue junio, aunque por desgracia este año tiene pinta de que va a ganar Djokovic",
-            "likes": -2,
             "comments": [
                 {
                     "username": "nadal5555",
@@ -44,7 +42,6 @@
             "username": "juliGar",
             "title": "Top 3 históricos fútbol",
             "body": "Quienes diriais que es vuestro top 3 históricos? yo creo que Maradona, Messi y Pele",
-            "likes": 96,
             "comments": [
                 {
                     "username": "cristiano",
@@ -65,7 +62,6 @@
             "username": "manu_gomez",
             "title": "Ya huele a feria",
             "body": "Que alegría volver a pisar el real después de tanto tiempo, aunque se me había olvidado ya el dolor de pies y todo jajajajaaja",
-            "likes": 12,
             "comments": [
                 {
                     "username": "paloma",
@@ -86,7 +82,6 @@
             "username": "paula_gomez",
             "title": "Una gran semana santa",
             "body": "Ya podemos volver a decir que quedan 356 para la próxima, gran cantidad de vivencias y emociones observando las imágenes",
-            "likes": 28,
             "comments": [
                 {
                     "username": "antonio-fernandez",
@@ -102,7 +97,6 @@
             "username": "villael",
             "title": "Tendencias 2022",
             "body": "Las expertas en moda dan un giro al sastre clásico tiñéndolo de colores vibrantes y llamativos. Naranja, verde esmeralda, fucsia... Esta primavera-verano el traje de chaqueta es todo menos discreto. ¿Qué os parece?",
-            "likes": 15,
             "comments": [
                 {
                     "username": "antonio-fernandez",
@@ -118,7 +112,6 @@
             "username": "lumier",
             "title": "Sobre la vida",
             "body": "Pues como lo leeis, justo hoy ha sido uno de esos días en los que sonries y te sientes afortunado por estar rodeado de las personas más cercanas. ¿Qué os parece?",
-            "likes": 15,
             "comments": [
                 {
                     "username": "antonio-fernandez",
@@ -134,7 +127,6 @@
             "username": "paula_gomez",
             "title": "Festival de música",
             "body": "Buenas, estoy pensando en algún festival de música urbana para un regalo por Comunidad Valenciana. alguna recomendacion???",
-            "likes": 105,
             "comments": [
                 {
                     "username": "marioRosi",
@@ -160,7 +152,6 @@
             "username": "pilarGe",
             "title": "Nuevo albúm de Kendrick Lamar",
             "body": "Que ganas de escuchar lo nuevo de Kendrik, se sabe si hay alguna colaboración así interesante??",
-            "likes": 24,
             "comments": [
                 {
                     "username": "julin",
@@ -176,7 +167,6 @@
             "username": "quantumFracture",
             "title": "Vídeo sobre los descubrimientos cientificos mas frecuentes",
             "body": "He subido un nuevo video a mi canal de Youtube con los nuevos descubrimientos hechos en Marte. Espero que os guste!!!",
-            "likes": 37,
             "comments": [
                 {
                     "username": "julin",
@@ -192,7 +182,6 @@
             "username": "elonery",
             "title": "Nuevas baterías",
             "body": "Se ha descubierto un nuevo material con el que hacer baterías que serán más económicas y se podrán usar en el hogar. ¿Qué os parece?",
-            "likes": 0,
             "comments": []
         },
         {
@@ -202,7 +191,6 @@
             "username": "elonery",
             "title": "Carnavales de cádiz",
             "body": "Se abre el plazo de inscripciones para los carnavales de cádiz. Ya hemos reunido a 23 personas para formar una agrupación. Se aceptan miembros hasta el día 15 de junio. Para más información, puedes consultar el siguiente enlace: https://www.cadizcarnaval.com/",
-            "likes": 34,
             "comments": [
                 {
                     "username": "julin",
@@ -255,15 +243,12 @@
             "_id": "_design/post",
             "validate_doc_update": "(t,e,i,r)=>{function n(e,i){if(i=i||'Document must have a '+e,!t[e])throw{forbidden:i}}if('post'===t.type){if(n('title'),n('body'),n('publication_date'),n('username'),'string'!=typeof t.title)throw{forbidden:'Title must be a string'};if(t.title.length>40)throw{forbidden:'Title must be under 40 characters'};if('string'!=typeof t.body)throw{forbidden:'Body must be a string'};if(t.body.length>500)throw{forbidden:'Body must be under 500 characters'};if('string'!=typeof t.username)throw{forbidden:'Username must be a string'};if(t.username.length>40)throw{forbidden:'Username must be under 40 characters'};if('string'!=typeof t.publication_date&&isNaN(new Date(t.publication_date)))throw{forbidden:'Publication date must be a date representative string'}}};",
             "views": {
-                "posts": {
-                    "map": "t=>'post'===t.type&&emit(t._id,t);"
-                },
                 "by_date": {
-                    "map": "t=>'post'===t.type&&emit(t.publication_date,{title:t.title,username:t.username});"
+                    "map": "t => { 'post' === t.type && emit(t.publication_date, { title: t.title, username: t.username }) };"
                 },
                 "by_theme": {
-                    "map": "t=>{'post'===t.type&&emit(t.theme,t)};",
-                    "reduce": "(k,v,r)=>v.flat();"
+                    "map": "t => { 'post' === t.type && emit(t.theme, { title: t.title, publication_date: t.publication_date, username: t.username }) };",
+                    "reduce": "(k, v, r) => v.flat();"
                 }
             },
             "updates": {
@@ -276,7 +261,7 @@
             "validate_doc_update": "function (newDoc,oldDoc,userCtx,secObj){function n(e,i){if(i=i||'Document must have a '+e,!newDoc[e])throw{forbidden:i}}if('theme'===newDoc.type){if(n('title'),n('description'),!newDoc.description)throw{forbidden:'Theme must have a description'};if('string'!=typeof newDoc.title)throw{forbidden:'Title must be a string'};if(newDoc.title.length>40)throw{forbidden:'Title must be under 40 characters'};if('string'!=typeof newDoc.description)throw{forbidden:'Description must be a string'};if(newDoc.description.length>150)throw{forbidden:'Description must be under 150 characters'}}}",
             "views": {
                 "themes": {
-                    "map": "t=>{'theme'===t.type?emit(t.title,0):'post'===t.type&&emit(t.theme,1);};",
+                    "map": "e => { 'theme' === e.type ? emit(e.title, 0) : 'post' === e.type && emit(e.theme, 1) };",
                     "reduce": "_sum"
                 }
             },
@@ -288,8 +273,15 @@
             "language": "javascript",
             "indexes": {
                 "post": {
-                    "analyzer": "spanish",
-                    "index": "t=>{index('default',t._id),'post'===t.type&&(index('title',t.title,{store:!0}),index('body',t.body,{store:!0}),index('username',t.username,{store:!0}),index('publication_date',t.publication_date,{store:!0}))};"
+                    "analyzer": {
+                        "name": "perfield",
+                        "default": "spanish",
+                        "fields": {
+                            "publication_date": "keyword",
+                            "username": "keyword"
+                        }
+                    },
+                    "index": "t => { index('default', t._id), 'post' === t.type && (index('title', t.title, { store: !0 }), index('body', t.body, { store: !0 }), index('username', t.username, { store: !0 }), index('publication_date', t.publication_date, { store: !0 })) };"
                 }
             }
         }
