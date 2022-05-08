@@ -6,9 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import Head from "next/head";
 
-
 export default function Home() {
-
   // Get the last posts and themes
   const { data: postsData, error: postsError } = useSWR("/api/post");
   const { data: themesData, error: themesError } = useSWR("/api/theme");
@@ -23,14 +21,10 @@ export default function Home() {
     return <div>loading...</div>;
   }
 
-
-
-
   // If there is data, show it
   return (
     <div>
-      <main className="grid grid-cols-1 md:grid-cols-2 gap-4 py-10 px-4 h-full bg-gray-200" >
-
+      <main className="grid grid-cols-1 md:grid-cols-2 gap-4 py-10 px-4 h-full bg-gray-200">
         {/* Noticias más recientes */}
         {postsData.rows.length !== 0 ? (
           <div className="bg-white md:rounded-xl p-4 divide-y-2">
@@ -46,7 +40,9 @@ export default function Home() {
             ))}
             <div className="py-4">
               <Link href="post/create">
-                <a><Button>Crear post</Button></a>
+                <a>
+                  <Button>Crear post</Button>
+                </a>
               </Link>
             </div>
           </div>
@@ -67,18 +63,20 @@ export default function Home() {
             ))}
             <div className="py-4 flex justify-center">
               <Link href="/theme/list">
-                <a><Button>Ver todos los temas</Button></a>
+                <a>
+                  <Button>Ver todos los temas</Button>
+                </a>
               </Link>
               <Link href="/theme/create">
-                <a><Button>Crear temática</Button></a>
+                <a>
+                  <Button>Crear temática</Button>
+                </a>
               </Link>
             </div>
           </div>
         ) : (
           <div>Todavía no se ha creado ningún tema.</div>
         )}
-
-
       </main>
     </div>
   );

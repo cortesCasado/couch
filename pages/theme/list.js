@@ -8,7 +8,6 @@ export default function List() {
   if (!data) return <div> loading... </div>;
 
   return (
-
     <div className="bg-white md:rounded-xl p-4 divide-y-2">
       <h1 className="font-title text-4xl pb-4">Temas más populares</h1>
       {data.map((theme) => (
@@ -19,6 +18,5 @@ export default function List() {
         />
       ))}
     </div>
-
   );
 }

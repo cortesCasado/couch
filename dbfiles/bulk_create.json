@@ -247,7 +247,7 @@
                     "map": "t => { 'post' === t.type && emit(t.publication_date, { title: t.title, username: t.username }) };"
                 },
                 "by_theme": {
-                    "map": "t => { 'post' === t.type && emit(t.theme, { title: t.title, publication_date: t.publication_date, username: t.username }) };",
+                    "map": "t => { 'post' === t.type && emit(t.theme, { _id: t._id, title: t.title, publication_date: t.publication_date, username: t.username }) }",
                     "reduce": "(k, v, r) => v.flat();"
                 }
             },

@@ -16,7 +16,9 @@ export default async function handler(req, res) {
 
     const response = await axios
       .put(
-        `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/post/_update/updateComments/${id}`,
+        `${process.env.NGINX_URL || "http://localhost:5984"}/${
+          process.env.DBNAME
+        }/_design/post/_update/updateComments/${id}`,
         req.body,
         options
       )

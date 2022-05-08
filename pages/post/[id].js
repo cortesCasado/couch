@@ -9,7 +9,6 @@ import { Button } from "@/components/Button";
 import Image from "next/image";
 
 export default function PostDetails({ id, post, page }) {
-
   // Modal para el formulario de enviar comentario
   const [showModal, setShowModal] = useState(false);
 
@@ -49,31 +48,41 @@ export default function PostDetails({ id, post, page }) {
 
   return (
     <div className="grid bg-gray-200 place-items-center md:py-4 h-full ">
-      {post.error !== 'not_found' ? (
-        <div className='bg-white p-6 md:rounded-xl w-full md:w-[750px] space-y-2 divide-y-2'>
+      {post.error !== "not_found" ? (
+        <div className="bg-white p-6 md:rounded-xl w-full md:w-[750px] space-y-2 divide-y-2">
           <Post post={post} />
 
           <div className="font-title p-2 text-4xl">Comentarios</div>
 
           <div className="divide-y-2">
-          {post.comments.slice((elementsPerPage*(page-1)), (elementsPerPage*(page-1)) + elementsPerPage).map((comment) => (
-            <Comment
-              key={comment.username}
-              username={comment.username}
-              comment={comment.comment}
-              date={comment.publication_date}
-            />
-          ))}
+            {post.comments
+              .slice(
+                elementsPerPage * (page - 1),
+                elementsPerPage * (page - 1) + elementsPerPage
+              )
+              .map((comment) => (
+                <Comment
+                  key={comment.username}
+                  username={comment.username}
+                  comment={comment.comment}
+                  date={comment.publication_date}
+                />
+              ))}
           </div>
 
-          <Button 
-            onClick={() => router.push(`${id}?page=${page - 1}`)} disabled={page <= 1}>
+          <Button
+            onClick={() => router.push(`${id}?page=${page - 1}`)}
+            disabled={page <= 1}
+          >
             Página Anterior
           </Button>
-          <Button onClick={() => router.push(`${id}?page=${+page + 1}`)} disabled={page >= Math.ceil(post.comments.length/elementsPerPage)}>
+          <Button
+            onClick={() => router.push(`${id}?page=${+page + 1}`)}
+            disabled={page >= Math.ceil(post.comments.length / elementsPerPage)}
+          >
             Página Siguiente
           </Button>
-          <br/>
+          <br />
 
           <Button onClick={() => setShowModal(true)}>Nuevo comentario</Button>
           {showModal && (
@@ -86,7 +95,9 @@ export default function PostDetails({ id, post, page }) {
               visibleCancelButton={false}
             >
               <form onSubmit={handleSubmit} method="POST" className="space-y-4">
-                <label htmlFor="username" className="px-2">Nombre de usuario:</label>
+                <label htmlFor="username" className="px-2">
+                  Nombre de usuario:
+                </label>
                 <input
                   required
                   maxLength="40"
@@ -94,10 +105,12 @@ export default function PostDetails({ id, post, page }) {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className='border-2 border-black'
+                  className="border-2 border-black"
                 />
                 <br />
-                <label htmlFor="comment" className="px-2">Comentario:</label>
+                <label htmlFor="comment" className="px-2">
+                  Comentario:
+                </label>
                 <input
                   required
                   maxLength="1000"
@@ -105,12 +118,10 @@ export default function PostDetails({ id, post, page }) {
                   type="text"
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  className='border-2 border-black'
+                  className="border-2 border-black"
                 />
                 <br />
-                <Button type="submit">
-                  Enviar
-                </Button>
+                <Button type="submit">Enviar</Button>
               </form>
             </DialogText>
           )}
@@ -124,7 +135,7 @@ export default function PostDetails({ id, post, page }) {
 
 export async function getServerSideProps(context) {
   let { id, page } = context.query;
-  
+
   if (page === undefined || page <= 0) {
     page = 1;
   }
@@ -142,7 +153,9 @@ export async function getServerSideProps(context) {
   let post;
 
   post = await fetch(
-    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/${id}`,
+    `${process.env.NGINX_URL || "http://localhost:5984"}/${
+      process.env.DBNAME
+    }/${id}`,
     options
   )
     .then((res) => res.json())
@@ -154,7 +167,7 @@ export async function getServerSideProps(context) {
     props: {
       id: id,
       post: post,
-      page: page
+      page: page,
     },
   };
 }

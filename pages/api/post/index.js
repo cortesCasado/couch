@@ -5,7 +5,6 @@ export default async function handler(req, res) {
   let dbResponse;
   switch (req.method) {
     case "GET":
-
       // Consultar últimos posts
       dbResponse = await getLastPosts();
 
@@ -14,8 +13,6 @@ export default async function handler(req, res) {
       } else {
         res.status(dbResponse.status).json(dbResponse.data);
       }
-
-
 
       break;
 
@@ -70,7 +67,9 @@ export async function putPost(body) {
   };
 
   return await fetch(
-    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/${uuids[0]}`,
+    `${process.env.NGINX_URL || "http://localhost:5984"}/${
+      process.env.DBNAME
+    }/${uuids[0]}`,
     options
   )
     .then((r) => r.status)
@@ -92,7 +91,9 @@ export async function getLastPosts() {
   };
 
   return await fetch(
-    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/post/_view/by_date?descending=true&limit=10`,
+    `${process.env.NGINX_URL || "http://localhost:5984"}/${
+      process.env.DBNAME
+    }/_design/post/_view/by_date?descending=true&limit=10`,
     options
   )
     .then((res) => res.json())

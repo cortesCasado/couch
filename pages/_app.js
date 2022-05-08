@@ -20,15 +20,15 @@ const fetcher = async (url) => {
 function MyApp({ Component, pageProps }) {
   return (
     <>
-    <Head>
+      <Head>
         <title>Couch Forum</title>
         <meta name="description" content="Couch Forum" />
         <link rel="icon" href="/couch.svg" />
       </Head>
-    <TopNav />
-    <SWRConfig value={{ fetcher }}>
-      <Component {...pageProps} />
-    </SWRConfig>
+      <TopNav />
+      <SWRConfig value={{ fetcher }}>
+        <Component {...pageProps} />
+      </SWRConfig>
     </>
   );
 }

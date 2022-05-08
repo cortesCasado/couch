@@ -1,11 +1,9 @@
 import { getUUID } from "@/api/_utils";
-import { data } from "autoprefixer";
 
 // Endpoint for theme API:  /api/theme
 export default async function handler(req, res) {
   switch (req.method) {
     case "GET":
-
       const themes = await getThemes();
 
       if (themes.error) {
@@ -52,7 +50,9 @@ export async function putTheme(body) {
   };
 
   return await fetch(
-    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/${uuids[0]}`,
+    `${process.env.NGINX_URL || "http://localhost:5984"}/${
+      process.env.DBNAME
+    }/${uuids[0]}`,
     options
   )
     .then(() => "Tema creado con éxito.")
@@ -76,10 +76,18 @@ export async function getThemes() {
   };
 
   return await fetch(
-    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_design/theme/_view/themes?group=true`,
+    `${process.env.NGINX_URL || "http://localhost:5984"}/${
+      process.env.DBNAME
+    }/_design/theme/_view/themes?group=true`,
     options
   )
-    .then((r) => r.json().then((data) => data.rows.sort((a, b) => b.value - a.value).slice(0, 10)))
+    .then((r) =>
+      r
+        .json()
+        .then((data) =>
+          data.rows.sort((a, b) => b.value - a.value).slice(0, 10)
+        )
+    )
     .catch((err) => err);
 }
 
@@ -108,13 +116,13 @@ export async function getThemeByTitle(title) {
   };
 
   return await fetch(
-    `${process.env.NGINX_URL || 'http://localhost:5984'}/${process.env.DBNAME}/_find`,
+    `${process.env.NGINX_URL || "http://localhost:5984"}/${
+      process.env.DBNAME
+    }/_find`,
     options
   )
     .then((r) => r.json().then((data) => data.docs))
     .catch((err) => err);
 }
-
-
 
 // Delete

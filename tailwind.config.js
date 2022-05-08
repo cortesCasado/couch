@@ -5,16 +5,16 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      'title': ['Oswald'],
-      'body': ['Roboto'],
+      title: ["Oswald"],
+      body: ["Roboto"],
     },
     extend: {
       colors: {
         amber: {
-          50: '#ffaa00'
-        }
-      }
-    }
+          50: "#ffaa00",
+        },
+      },
+    },
   },
   plugins: [],
 };
