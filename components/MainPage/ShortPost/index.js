@@ -9,7 +9,7 @@ function index({ id, title, username, date }) {
           <div className="cursor-pointer font-body text-lg">
             <p>
               {title} (
-              {new Date(date).toLocaleString("es-ES", { timeZone: "UTC" })})
+              {new Date(date).toLocaleString("es-ES", { timeZone: "UTC" })} UTC±00:00)
             </p>
             <p>Autor: {username}</p>
           </div>

@@ -10,7 +10,7 @@ export default function Post({ post }) {
           Fecha de publicación:{" "}
           {new Date(post.publication_date).toLocaleString("es-ES", {
             timeZone: "UTC",
-          })}
+          })} UTC±00:00
         </div>
       </div>
       <div className="font-body text-lg p-4">{post.body}</div>
