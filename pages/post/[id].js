@@ -95,7 +95,7 @@ export default function PostDetails({ id, post, page }) {
               visibleCancelButton={false}
             >
               <form onSubmit={handleSubmit} method="POST" className="space-y-4">
-                <label htmlFor="username" className="px-2">
+                <label htmlFor="username" className="px-2 text-white">
                   Nombre de usuario:
                 </label>
                 <input
@@ -108,7 +108,7 @@ export default function PostDetails({ id, post, page }) {
                   className="border-2 border-black"
                 />
                 <br />
-                <label htmlFor="comment" className="px-2">
+                <label htmlFor="comment" className="px-2 text-white">
                   Comentario:
                 </label>
                 <input
@@ -153,8 +153,7 @@ export async function getServerSideProps(context) {
   let post;
 
   post = await fetch(
-    `${process.env.NGINX_URL || "http://localhost:5984"}/${
-      process.env.DBNAME
+    `${process.env.NGINX_URL || "http://localhost:5984"}/${process.env.DBNAME
     }/${id}`,
     options
   )
